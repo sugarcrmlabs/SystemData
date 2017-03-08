@@ -160,4 +160,151 @@ class SystemData {
 
         return false;
     }
+
+    public function getRowsFromTable($table_name, $display_field = 'name') {
+        global $current_user;
+
+        $list_records = array();
+
+        if(!empty($table_name) && !empty($display_field)) {
+            $db = \DBManagerFactory::getInstance();
+
+            // retrieve also deleted
+            $query = "SELECT * " .
+                "FROM " . $db->quote($table_name) . " " .
+                "order by " . $db->quote($display_field)  . ", id ";
+            $res = $db->query($query);
+
+            while ($row = $db->fetchByAssoc($res)) {
+                if(!empty($row['id'])) {
+                    foreach($row as $field => $value) {
+                        $list_records[$row['id']][$field] = $value;
+                    }
+
+                    // get team set team membership and users for private teams if this field exists and it is not empty
+                    if(!empty($row['team_set_id'])) {
+                        $list_records[$row['id']]['team_set_data'] = $this->getTeamsOrUsersRelevantToTeamset($row['team_set_id']);
+                        unset($list_records[$row['id']]['team_set_id']);
+                    }
+                    
+                    // get team set team membership and users for private teams for the acl feature if the field exists and it is not empty
+                    if(!empty($row['acl_team_set_id'])) {
+                        $list_records[$row['id']]['acl_team_set_data'] = $this->getTeamsOrUsersRelevantToTeamset($row['acl_team_set_id']);
+                        unset($list_records[$row['id']]['acl_team_set_id']);
+                    }
+
+                    // if not deleted, remove the field
+                    if(empty($list_records[$row['id']]['deleted'])) {
+                        unset($list_records[$row['id']]['deleted']);
+                    }
+                }
+            }
+        }
+
+        return $list_records;
+    }
+
+    public function saveBeansArray($bean_name, $records, $display_field = 'name') {
+        if(!empty($bean_name) && !empty($records) && !empty($display_field)) {
+
+            $res = array();
+            $res['update'] = array();
+            $res['create'] = array(); 
+
+            foreach($records as $id => $record) {
+                $current_res = $this->saveBean($bean_name, $record);
+
+                if(empty($record[$display_field])) {
+                    $name = $record['id'];
+                } else {
+                    $name = $record[$display_field];
+                }
+
+                if(!empty($current_res['update'])) {
+                    $res['update'][$record['id']] = $name;
+                } else if(!empty($current_res['create'])) {
+                    $res['create'][$record['id']] = $name;
+                }
+
+                if(!empty($current_res['error'])) {
+                    $res['errors'][$record['id']] = $current_res['error'];
+                }
+            }
+
+            return $res;
+        }
+        return false; 
+    }
+
+    public function saveBean($bean_name, $params) {
+        global $current_user;
+
+        $res = array();
+        $res['update'] = array();
+        $res['create'] = array(); 
+        $res['errors'] = array(); 
+
+        if(!empty($bean_name)) {
+
+            // create team sets
+            $team_set_error = false;
+            if(!empty($params['team_set_data'])) {
+                $params['team_set_id'] = $this->setPublicTeamsAndUsers($params['team_set_data']);
+                if(empty($params['team_set_id'])) {
+                    $team_set_error = true;
+                }
+                unset($params['team_set_data']);
+            }
+
+            // create team sets
+            $acl_team_set_error = false;
+            if(!empty($params['acl_team_set_data'])) {
+                $params['acl_team_set_id'] = $this->setPublicTeamsAndUsers($params['acl_team_set_data']);
+                if(empty($params['acl_team_set_id'])) {
+                    $acl_team_set_error = true;
+                }
+                unset($params['acl_team_set_data']);
+            }
+
+
+            if(empty($team_set_error) && empty($acl_team_set_error)) {
+
+                // get also deleted records, so we undelete them if there is a match, instead of having a db error
+                $b = \BeanFactory::getBean($bean_name, $params['id'], array(), false);
+
+                if(!empty($b) && !empty($b->id)) {
+                    $res['update'][$b->id] = $b->name;
+                } else {
+                    $res['create'][$params['id']] = $params['name'];
+                    // creating with existing guid
+                    $b = \BeanFactory::newBean($bean_name);
+                    $b->new_with_id = true;
+                    $b->id = $params['id'];
+                }
+
+                foreach($params as $field => $value) {
+                    if($field != 'id' && $field != 'deleted') {
+                        $b->$field = $value;
+                    }
+                }
+
+                // undelete if deleted
+                if($b->deleted && !$params['deleted']) {
+                    $b->mark_undeleted($b->id);
+                }
+
+                // delete if deleted
+                if($params['deleted'] && !$b->deleted) {
+                    $b->mark_deleted($b->id);
+                }
+
+                $b->save();
+            } else {
+                // problem with team sets
+                $res['error'] = 'Could not save record for '.$bean_name.' with id '.$params['id'].' due to missing Teams, please check that all Users and Teams have been imported correctly';
+            }
+        }
+
+        return $res;
+    }
 }

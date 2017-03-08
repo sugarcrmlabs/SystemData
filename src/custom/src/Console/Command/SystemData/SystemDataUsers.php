@@ -7,20 +7,24 @@ namespace Sugarcrm\Sugarcrm\custom\Console\Command\SystemData;
 
 class SystemDataUsers extends SystemData {
 
-    public function getActiveUsers() {
+    public function getUsers() {
         global $current_user;
         $db = \DBManagerFactory::getInstance();
 
         $query = "SELECT id, user_name " .
             "FROM users " .
-            "WHERE deleted = 0 AND status = 'Active' order by id ";
+            "order by id ";
+            //"WHERE deleted = 0 AND status = 'Active' order by id ";
         $res = $db->query($query);
 
         $list_users = array();
 
         while ($row = $db->fetchByAssoc($res)) {
             if(!empty($row['id']) && !empty($row['user_name'])) {
-                $u = \BeanFactory::getBean('Users', $row['id']);
+                //$u = \BeanFactory::getBean('Users', $row['id']);
+
+                // allow retrieval of deleted users as well
+                $u = \BeanFactory::getBean('Users', $row['id'], array(), false);
 
                 if(!empty($u) && !empty($u->id)) {
                     foreach($u->field_defs as $user_field_name) {
@@ -30,36 +34,40 @@ class SystemDataUsers extends SystemData {
                         }
                     }
 
-                    // get additional explicit team membership
-                    $teams = $u->get_my_teams($u->id);
-                    if(!empty($teams)) {
-                        foreach($teams as $team) {
-                            if(empty($team->implicit_assign) && empty($team->private) && $team->id != 1) {
-                                $list_users[$u->id]['teams'][$team->id] = $team->name;
+                    if(!$u->deleted) {
+                        unset($list_users[$u->id]['fields']['deleted']);
+
+                        // get additional explicit team membership
+                        $teams = $u->get_my_teams($u->id);
+                        if(!empty($teams)) {
+                            foreach($teams as $team) {
+                                if(empty($team->implicit_assign) && empty($team->private) && $team->id != 1) {
+                                    $list_users[$u->id]['teams'][$team->id] = $team->name;
+                                }
                             }
                         }
-                    }
 
-                    // get role membership
-                    $roles = \ACLRole::getUserRoles($u->id, false);
-                    if(!empty($roles)) {
-                        foreach($roles as $role) {
-                            $list_users[$u->id]['roles'][$role->id] = $role->name;
+                        // get role membership
+                        $roles = \ACLRole::getUserRoles($u->id, false);
+                        if(!empty($roles)) {
+                            foreach($roles as $role) {
+                                $list_users[$u->id]['roles'][$role->id] = $role->name;
+                            }
                         }
-                    }
 
-                    // get dashboards
-                    $dashboards = $this->getUserDashboards($u->id);
-                    if(!empty($dashboards)) {
-                        $list_users[$u->id]['dashboards'] = array();
-                        $list_users[$u->id]['dashboards'] = $dashboards;
-                    }
+                        // get dashboards
+                        $dashboards = $this->getUserDashboards($u->id);
+                        if(!empty($dashboards)) {
+                            $list_users[$u->id]['dashboards'] = array();
+                            $list_users[$u->id]['dashboards'] = $dashboards;
+                        }
 
-                    // get preferences
-                    $prefs = $this->getUserPreferences($u->id);
-                    if(!empty($prefs)) {
-                        $list_users[$u->id]['preferences'] = array();
-                        $list_users[$u->id]['preferences'] = $prefs;
+                        // get preferences
+                        $prefs = $this->getUserPreferences($u->id);
+                        if(!empty($prefs)) {
+                            $list_users[$u->id]['preferences'] = array();
+                            $list_users[$u->id]['preferences'] = $prefs;
+                        }
                     }
                 }
             }
@@ -69,7 +77,6 @@ class SystemDataUsers extends SystemData {
     }
 
     public function getUserDashboards($user_id) {
-        global $current_user;
         $db = \DBManagerFactory::getInstance();
 
         $records = array();
@@ -82,14 +89,7 @@ class SystemDataUsers extends SystemData {
 
             while ($row = $db->fetchByAssoc($res)) {
                 if(!empty($row['id'])) {
-                    // unset what is not useful (i use this method so that it will be forward compatible as much as possible with other fields)
-                    unset($row['date_entered']);
-                    unset($row['date_modified']);
                     unset($row['deleted']);
-                    unset($row['assigned_user_id']);
-                    unset($row['modified_user_id']);
-                    unset($row['created_by']);
-
                     $records[$row['id']] = $row;
                 }
             }
@@ -98,8 +98,16 @@ class SystemDataUsers extends SystemData {
         return $records;
     }
 
+    public function clearPreviousUserDashboards($user_id) {
+        $db = \DBManagerFactory::getInstance();
+
+        if(!empty($user_id)) {
+            $query = "UPDATE dashboards SET deleted = '1' WHERE assigned_user_id = '".$db->quote($user_id)."'"; 
+            $res = $db->query($query);
+        }
+    }
+
     public function getUserPreferences($user_id) {
-        global $current_user;
         $db = \DBManagerFactory::getInstance();
 
         $records = array();
@@ -112,11 +120,7 @@ class SystemDataUsers extends SystemData {
 
             while ($row = $db->fetchByAssoc($res)) {
                 if(!empty($row['id'])) {
-                    // unset what is not useful (i use this method so that it will be forward compatible as much as possible with other fields)
-                    unset($row['date_entered']);
-                    unset($row['date_modified']);
                     unset($row['deleted']);
-                    unset($row['assigned_user_id']);
 
                     // decode so that it is clear on the json what we do
                     $row['contents'] = base64_decode($row['contents']);
@@ -127,6 +131,15 @@ class SystemDataUsers extends SystemData {
         }
 
         return $records;
+    }
+
+    public function clearPreviousUserPreferences($user_id) {
+        $db = \DBManagerFactory::getInstance();
+
+        if(!empty($user_id)) {
+            $query = "UPDATE user_preferences SET deleted = '1' WHERE assigned_user_id = '".$db->quote($user_id)."'"; 
+            $res = $db->query($query);
+        }
     }
 
     public function saveUsersArray($users) {
@@ -155,7 +168,6 @@ class SystemDataUsers extends SystemData {
                 //if(!empty($current_res['reports_to_id'])) {
                 if($current_res['saved'] === false) {
                     // put the current record back on the queue
-                    //echo 'putting user '.$user['id'].' back into queue'.PHP_EOL;
                     // add as last element
                     $users[$user['fields']['id']] = $user;
                 } else {
@@ -167,8 +179,11 @@ class SystemDataUsers extends SystemData {
                     }
 
                     // save preferences
+                    $this->clearPreviousUserPreferences($user['fields']['id']);
                     $this->saveUserPreferences($user);
+
                     // save dashboards
+                    $this->clearPreviousUserDashboards($user['fields']['id']);
                     $this->saveUserDashboards($user);
                 }
             }
@@ -221,19 +236,21 @@ class SystemDataUsers extends SystemData {
         }
 
         // undelete if deleted
-        if($u->deleted) {
+        if($u->deleted && !$user_params['deleted']) {
             $u->mark_undeleted($u->id);
             // TODO global team access?
             // TODO private team undelete and relate?
         }
 
+        // handle deletion
+        if($user_params['deleted'] && !$u->deleted) {
+            $u->mark_deleted($u->id);
+        }
+
         if(empty($res['reports_to_id'])) {
-            //echo "saving ".$u->id.PHP_EOL;
             $u->save();
             $res['saved'] = true;
 
-        } else {
-            //echo "NOT saving ".$u->id.PHP_EOL;
         }
 
         return $res;
