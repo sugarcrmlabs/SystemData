@@ -1,7 +1,7 @@
 <?php
 
 // Enrico Simonetti
-// 2016-12-22
+// 2017-03-02
 
 namespace Sugarcrm\Sugarcrm\custom\Console\Command\SystemData;
 
@@ -11,17 +11,17 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class SystemDataUsersExport extends Command implements InstanceModeInterface {
+class SystemDataAWFExport extends Command implements InstanceModeInterface {
 
     // get common code
     protected function data() {
-        return new SystemDataUsers();
+        return new SystemDataAWF();
     }
 
     protected function configure() {
         $this
-            ->setName('systemdata:export:users')
-            ->setDescription('Export Users into JSON data file')
+            ->setName('systemdata:export:awf')
+            ->setDescription('Export AWF into JSON data file')
             ->addArgument(
                 'path',
                 InputArgument::REQUIRED,
@@ -32,9 +32,17 @@ class SystemDataUsersExport extends Command implements InstanceModeInterface {
     protected function execute(InputInterface $input, OutputInterface $output) {
 
         $path = $input->getArgument('path');
-        $data = $this->data()->getUsers();
-        $file = $this->data()->checkPath($path).'users.json';
+        $data = $this->data()->getAWF();
+        $file = $this->data()->checkPath($path).'awf.json';
+        
+        $count = 0;
+        if(!empty($data)) {
+            foreach($data as $key => $val) {
+                $count += count($data[$key]);
+            }
+        }
+
         $this->data()->putData($file, $data);
-        $output->writeln(count($data).' User(s) exported into '.$file);
+        $output->writeln($count.' AWF(s) exported into '.$file);
     }
 }

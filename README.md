@@ -5,7 +5,8 @@ The System Data tool helps you export and import some of the data available in S
 
 ## Requirements
 It requires Sugar version 7.8 or above, with the new CLI framework.<br />
-It requires to be able to run the Sugar CLI framework.
+It requires to be able to run the Sugar CLI framework.<br />
+It requires that the source and destinations systems are exactly the same in terms of code and customizations (including if changes are completed via Studio/Module Builder).
 
 ## Features
 
@@ -16,6 +17,7 @@ Can export and import from one instance to another:
 - Teams Membership
 - Roles Membership
 - Reports
+- AWF (Advanced Workflows)
 
 It re-stores deleted records if necessary/found.<br />
 It deletes records if flagged accordingly on the JSON file.<br />
@@ -40,8 +42,12 @@ It does "smart" insert of users with reporting structure, keeping all users that
 It includes Teams membership and Roles membership ONLY for explicit assignment. It does not remove users from other explicit/implicit Teams membership or Role membeship.
 
 #### Reports
-To export Reports, it includes also all Teams and Team Sets used on its records. Now from 7.8 onwards there is an additional Team Set field for Team based ACL: acl_team_set_id and the script is already compatible with it.<br />
+It exports Reports, including all Teams and Team Sets used on the records. Now from 7.8 onwards there is an additional Team Set field for Team based ACL: acl_team_set_id and the script is already compatible with it.<br />
 In addition to export the Report records, it completes an export of the full list of Teams that comprise the related Team Sets. It also completes an export of the full list of Users that have a Private Team part of the Team Set (as private Teams are not exported by the tool, so that it can find the newly matching private Team for the same Users).
+
+#### AWF
+It exports AWF records, including business rules and email templates.<br />
+Some AWF records required Teams and Team Sets. Similarly to the Reports export, the tool keeps track of what Teams and/or Users are related to the record. 
 
 #### Importing of Data
 
@@ -54,6 +60,7 @@ The order should be:
 - Teams Membership
 - Roles Membership
 - Reports
+- AWF
 
 This tool is only compatible with its own export files.
 
@@ -69,6 +76,7 @@ This tool is only compatible with its own export files.
 `sudo -u www-data ./bin/sugarcrm systemdata:export:roles /tmp`<br />
 `sudo -u www-data ./bin/sugarcrm systemdata:export:users /tmp`<br />
 `sudo -u www-data ./bin/sugarcrm systemdata:export:reports /tmp`<br />
+`sudo -u www-data ./bin/sugarcrm systemdata:export:awf /tmp`<br />
 
 
 ### Import
@@ -78,6 +86,7 @@ This tool is only compatible with its own export files.
 `sudo -u www-data ./bin/sugarcrm systemdata:import:teamsmembership /tmp/users.json`<br />
 `sudo -u www-data ./bin/sugarcrm systemdata:import:rolesmembership /tmp/users.json`<br />
 `sudo -u www-data ./bin/sugarcrm systemdata:import:reports /tmp/reports.json`<br />
+`sudo -u www-data ./bin/sugarcrm systemdata:import:awf /tmp/awf.json`<br />
 
 Note: You would need to use `sudo -u www-data` to execute the CLI framework as your Apache user (if the Apache user is `www-data`).<br />
 In Debian the Apache default user is `www-data`, in RedHat/CentOS is `httpd`. Please double check and replace based on your needs.
@@ -89,6 +98,11 @@ IMPORTANT: Make sure to keep the users.json file safe. User's passwords (even if
 Everyone is welcome to contribute to this project! If you make a contribution, then the [Contributor Terms](CONTRIBUTOR_TERMS.pdf) apply to your submission.
 
 Please check out our [Contribution Guidelines](CONTRIBUTING.md) for helpful hints and tips that will make it easier for us to accept your pull requests.
+
+
+## Changelog
+
+Changelog is available [here](CHANGELOG.md)
 
 -----
 Copyright (c) 2016 SugarCRM Inc. Licensed by SugarCRM under the Apache 2.0 license.

@@ -23,3 +23,7 @@ $commandregistry->addCommands(array(new Sugarcrm\Sugarcrm\custom\Console\Command
 // reports (includes team list and user list for private teams)
 $commandregistry->addCommands(array(new Sugarcrm\Sugarcrm\custom\Console\Command\SystemData\SystemDataReportsExport()));
 $commandregistry->addCommands(array(new Sugarcrm\Sugarcrm\custom\Console\Command\SystemData\SystemDataReportsImport()));
+
+// awf
+$commandregistry->addCommands(array(new Sugarcrm\Sugarcrm\custom\Console\Command\SystemData\SystemDataAWFExport()));
+$commandregistry->addCommands(array(new Sugarcrm\Sugarcrm\custom\Console\Command\SystemData\SystemDataAWFImport()));
