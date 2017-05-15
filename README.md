@@ -72,21 +72,21 @@ This tool is only compatible with its own export files.
 ## Use
 
 ### Export
-`sudo -u www-data ./bin/sugarcrm systemdata:export:teams /tmp`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:export:roles /tmp`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:export:users /tmp`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:export:reports /tmp`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:export:awf /tmp`<br />
+`sudo -u www-data php ./bin/sugarcrm systemdata:export:teams /tmp`<br />
+`sudo -u www-data php ./bin/sugarcrm systemdata:export:roles /tmp`<br />
+`sudo -u www-data php ./bin/sugarcrm systemdata:export:users /tmp`<br />
+`sudo -u www-data php ./bin/sugarcrm systemdata:export:reports /tmp`<br />
+`sudo -u www-data php ./bin/sugarcrm systemdata:export:awf /tmp`<br />
 
 
 ### Import
-`sudo -u www-data ./bin/sugarcrm systemdata:import:teams /tmp/teams.json`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:import:roles /tmp/roles.json`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:import:users /tmp/users.json`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:import:teamsmembership /tmp/users.json`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:import:rolesmembership /tmp/users.json`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:import:reports /tmp/reports.json`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:import:awf /tmp/awf.json`<br />
+`sudo -u www-data php ./bin/sugarcrm systemdata:import:teams /tmp/teams.json`<br />
+`sudo -u www-data php ./bin/sugarcrm systemdata:import:roles /tmp/roles.json`<br />
+`sudo -u www-data php ./bin/sugarcrm systemdata:import:users /tmp/users.json`<br />
+`sudo -u www-data php ./bin/sugarcrm systemdata:import:teamsmembership /tmp/users.json`<br />
+`sudo -u www-data php ./bin/sugarcrm systemdata:import:rolesmembership /tmp/users.json`<br />
+`sudo -u www-data php ./bin/sugarcrm systemdata:import:reports /tmp/reports.json`<br />
+`sudo -u www-data php ./bin/sugarcrm systemdata:import:awf /tmp/awf.json`<br />
 
 Note: You would need to use `sudo -u www-data` to execute the CLI framework as your Apache user (if the Apache user is `www-data`).<br />
 In Debian the Apache default user is `www-data`, in RedHat/CentOS is `httpd`. Please double check and replace based on your needs.
