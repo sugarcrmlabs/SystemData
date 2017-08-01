@@ -35,6 +35,6 @@ class SystemDataTeams extends SystemData {
     }
 
     public function saveTeamsArray($teams) {
-        $this->saveBeansArray('Teams', $teams, 'name');
+        return $this->saveBeansArray('Teams', $teams, 'name');
     }
 }
