@@ -44,14 +44,16 @@ class SystemDataRoles extends SystemData {
         $db = \DBManagerFactory::getInstance();
 
         // retrieve also deleted
-        $query = "SELECT id, name, description, deleted " .
-            "FROM acl_roles " .
-            "order by name, id ";
-        $res = $db->query($query);
+        $builder = $db->getConnection()->createQueryBuilder();
+        $builder->select(array('id', 'name', 'description', 'deleted'))->from('acl_roles');
+        $builder->orderBy('name');
+        $builder->addOrderBy('id');
+
+        $res = $builder->execute();
 
         $list_records = array();
 
-        while ($row = $db->fetchByAssoc($res)) {
+        while ($row = $res->fetch()) {
             if(!empty($row['id']) && !empty($row['name'])) {
                 foreach($row as $field => $value) {
                     $list_records[$row['id']]['role_info'][$field] = $value;
@@ -77,15 +79,19 @@ class SystemDataRoles extends SystemData {
             global $current_user;
             $db = \DBManagerFactory::getInstance();
 
-            $query = "SELECT ara.id, ara.access_override, ara.deleted, aa.category, aa.name " .
-                "FROM acl_roles_actions ara JOIN acl_actions aa ON ara.action_id = aa.id " .
-                "WHERE ara.deleted = 0 and aa.deleted = 0 and ara.role_id = '".$db->quote($role_id)."' order by aa.category, aa.name, ara.id ";
-            $res = $db->query($query);
+            $builder = $db->getConnection()->createQueryBuilder();
+            $builder->select(array('ara.id', 'ara.access_override', 'ara.deleted', 'aa.category', 'aa.name'))->from('acl_roles_actions', 'ara');
+            $builder->innerJoin('ara', 'acl_actions', 'aa', 'ara.action_id = aa.id');
+            $builder->where("ara.deleted = '0' AND aa.deleted = '0' AND ara.role_id = " . $builder->createPositionalParameter($role_id));
+            $builder->orderBy('aa.category');
+            $builder->addOrderBy('aa.name');
+            $builder->addOrderBy('ara.id');
+
+            $res = $builder->execute();
 
             $list_records = array();
 
-            while ($row = $db->fetchByAssoc($res)) {
-
+            while ($row = $res->fetch()) {
                 $list_records[$row['category']][$row['name']] = $this->getModulePermName($row['access_override']);
             }
         }
@@ -97,10 +103,11 @@ class SystemDataRoles extends SystemData {
         if(!empty($role_id)) {
             $db = \DBManagerFactory::getInstance();
 
-            //$query = "UPDATE acl_roles_actions set deleted = '1' where role_id = '".$db->quote($role_id)."'";
             // let's do a hard delete here too, to keep things clean
-            $query = "DELETE from acl_roles_actions where role_id = '".$db->quote($role_id)."'";
-            $db->query($query);
+            $builder = $db->getConnection()->createQueryBuilder();
+            $builder->delete('acl_roles_actions');
+            $builder->where('role_id = ' . $builder->createPositionalParameter($role_id));
+            $builder->execute();
         }
     }
 
@@ -112,12 +119,16 @@ class SystemDataRoles extends SystemData {
             global $current_user;
             $db = \DBManagerFactory::getInstance();
 
-            $query = "SELECT id, name, category, aclaccess, deleted " .
-                "FROM acl_fields " .
-                "WHERE deleted = 0 and role_id = '".$db->quote($role_id)."' order by category, name, id ";
-            $res = $db->query($query);
+            $builder = $db->getConnection()->createQueryBuilder();
+            $builder->select(array('id', 'name', 'category', 'aclaccess', 'deleted'))->from('acl_fields');
+            $builder->where("deleted = '0' AND role_id = " . $builder->createPositionalParameter($role_id));
+            $builder->orderBy('category');
+            $builder->addOrderBy('name');
+            $builder->addOrderBy('id');
 
-            while ($row = $db->fetchByAssoc($res)) {
+            $res = $builder->execute();
+
+            while ($row = $res->fetch()) {
                 $list_records[$row['category']][$row['name']] = $this->getFieldPermName($row['aclaccess']);
             }
         }
@@ -130,8 +141,10 @@ class SystemDataRoles extends SystemData {
             $db = \DBManagerFactory::getInstance();
 
             // need hard delete as the core code only inserts
-            $query = "DELETE from acl_fields where role_id = '".$db->quote($role_id)."'";
-            $db->query($query);
+            $builder = $db->getConnection()->createQueryBuilder();
+            $builder->delete('acl_fields');
+            $builder->where('role_id = ' . $builder->createPositionalParameter($role_id));
+            $builder->execute();
         }
     }
 
@@ -210,12 +223,15 @@ class SystemDataRoles extends SystemData {
                     if(!empty($perm)) {
                         foreach($perm as $action => $access) {
                             // need to retrieve action id from db now
-                            $query = "SELECT id " .
-                                "FROM acl_actions " .
-                                "WHERE category = '".$db->quote($mod)."' and name = '".$db->quote($action)."' and deleted = '0' ";
-                            $actionres = $db->query($query);
 
-                            if($row = $db->fetchByAssoc($actionres)) {
+                            $builder = $db->getConnection()->createQueryBuilder();
+                            $builder->select(array('id'))->from('acl_actions');
+                            $builder->where("deleted = '0' AND category = " . $builder->createPositionalParameter($mod) . " AND name = " . $builder->createPositionalParameter($action));
+                            $builder->orderBy('id');
+
+                            $actionres = $builder->execute();
+
+                            if ($row = $actionres->fetch()) {
                                 if(!empty($row['id'])) {
                                     //echo $mod.' '.$b->id.' '.$action.' '.$access.' '.constant($access).PHP_EOL;
                                     $b->setAction($b->id, $row['id'], constant($access));

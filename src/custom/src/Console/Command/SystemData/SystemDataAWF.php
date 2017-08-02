@@ -178,10 +178,10 @@ class SystemDataAWF extends SystemData {
     public function truncateAllProcessTables() {
         $db = \DBManagerFactory::getInstance();
         foreach($this->modules_to_sync as $table => $module) {
-            $db->query('truncate '.$db->quote($table));    
+            $db->truncateTableSQL($db->quote($table));
         }
         foreach($this->modules_not_to_sync as $table => $module) {
-            $db->query('truncate '.$db->quote($table));    
+            $db->truncateTableSQL($db->quote($table));
         }
     }
 
@@ -214,9 +214,8 @@ class SystemDataAWF extends SystemData {
     public function pruneAWFSingleProcess($table, $field, $value) {
         $db = \DBManagerFactory::getInstance();
         if(!empty($table) && !empty($field) && !empty($value)) {
-            //$query = "DELETE FROM ".$db->quote($table)." WHERE ".$db->quote($field)." = '".$db->quote($value)."'";
-            $query = "UPDATE ".$db->quote($table)." SET deleted = '1' WHERE ".$db->quote($field)." = '".$db->quote($value)."'";
-            $db->query($query);
+            $query = "UPDATE ".$db->quote($table)." SET deleted = '1' WHERE ".$db->quote($field)." = ?";
+            $db->getConnection()->executeQuery($query, array($value));
         }
     }
 

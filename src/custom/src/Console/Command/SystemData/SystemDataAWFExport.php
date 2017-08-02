@@ -43,6 +43,6 @@ class SystemDataAWFExport extends Command implements InstanceModeInterface {
         }
 
         $this->data()->putData($file, $data);
-        $output->writeln($count.' AWF(s) exported into '.$file);
+        $output->writeln($count.' AWF(s) rules exported into '.$file);
     }
 }

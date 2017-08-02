@@ -170,12 +170,14 @@ class SystemData {
             $db = \DBManagerFactory::getInstance();
 
             // retrieve also deleted
-            $query = "SELECT * " .
-                "FROM " . $db->quote($table_name) . " " .
-                "order by " . $db->quote($display_field)  . ", id ";
-            $res = $db->query($query);
+            $builder = $db->getConnection()->createQueryBuilder();
+            $builder->select('*')->from($table_name);
+            $builder->orderBy($display_field);
+            $builder->addOrderBy('id');
+          
+            $res = $builder->execute();
 
-            while ($row = $db->fetchByAssoc($res)) {
+            while ($row = $res->fetch()) {
                 if(!empty($row['id'])) {
                     foreach($row as $field => $value) {
                         $list_records[$row['id']][$field] = $value;

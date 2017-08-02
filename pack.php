@@ -5,9 +5,9 @@
 
 $id = 'cli_system_data';
 $name = 'CLI System Data Export Import tool';
-$built_in_version = '7.8.0.0';
+$built_in_version = '7.9.1.0';
 $author = 'Enrico Simonetti, SugarCRM Inc.';
-$regex_matches = '^7.8.[\d]+.[\d]+$';
+$regex_matches = '^7.9.[\d]+.[\d]+$';
 
 // end config variables
 

@@ -4,7 +4,7 @@ CLI System Data is a command line tool built to simplify some of the data transf
 The System Data tool helps you export and import some of the data available in Sugar using JSON data files.
 
 ## Requirements
-It requires Sugar version 7.8 or above, with the new CLI framework.<br />
+It requires Sugar version 7.9 or above, with the new CLI framework and with prepared statements. The latest release has been built on 7.9.1.0<br />
 It requires to be able to run the Sugar CLI framework.<br />
 It requires that the source and destinations systems are exactly the same in terms of code and customizations (including if changes are completed via Studio/Module Builder).
 
@@ -105,4 +105,4 @@ Please check out our [Contribution Guidelines](CONTRIBUTING.md) for helpful hint
 Changelog is available [here](CHANGELOG.md)
 
 -----
-Copyright (c) 2016 SugarCRM Inc. Licensed by SugarCRM under the Apache 2.0 license.
+Copyright (c) 2017 SugarCRM Inc. Licensed by SugarCRM under the Apache 2.0 license.

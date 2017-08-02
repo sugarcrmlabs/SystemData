@@ -40,7 +40,7 @@ class SystemDataAWFImport extends Command implements InstanceModeInterface {
                     $output->writeln($message);
                 }
             }
-            $output->writeln('AWF(s) imported! '.count($res['update']).' record(s) updated, '.count($res['create']).' record(s) created.');
+            $output->writeln('AWF(s) rules imported! '.count($res['update']).' record(s) updated, '.count($res['create']).' record(s) created.');
         } else {
             $output->writeln($path.' does not exist, aborting.');
         }

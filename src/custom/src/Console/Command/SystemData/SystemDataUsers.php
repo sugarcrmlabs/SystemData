@@ -11,15 +11,15 @@ class SystemDataUsers extends SystemData {
         global $current_user;
         $db = \DBManagerFactory::getInstance();
 
-        $query = "SELECT id, user_name " .
-            "FROM users " .
-            "order by id ";
-            //"WHERE deleted = 0 AND status = 'Active' order by id ";
-        $res = $db->query($query);
+        // retrieve also deleted
+        $builder = $db->getConnection()->createQueryBuilder();
+        $builder->select(array('id', 'user_name'))->from('users');
+        $builder->orderBy('id');
+        $res = $builder->execute();
 
         $list_users = array();
 
-        while ($row = $db->fetchByAssoc($res)) {
+        while ($row = $res->fetch()) {
             if(!empty($row['id']) && !empty($row['user_name'])) {
                 //$u = \BeanFactory::getBean('Users', $row['id']);
 
@@ -82,12 +82,14 @@ class SystemDataUsers extends SystemData {
         $records = array();
         
         if(!empty($user_id)) {
-            $query = "SELECT * " .
-                "FROM dashboards " .
-                "WHERE deleted = 0 AND assigned_user_id='".$db->quote($user_id)."' order by id ";
-            $res = $db->query($query);
+            $builder = $db->getConnection()->createQueryBuilder();
+            $builder->select('*')->from('dashboards');
+            $builder->where("deleted = '0' AND assigned_user_id = " . $builder->createPositionalParameter($user_id)); 
+            $builder->orderBy('id');
+          
+            $res = $builder->execute();
 
-            while ($row = $db->fetchByAssoc($res)) {
+            while ($row = $res->fetch()) {
                 if(!empty($row['id'])) {
                     unset($row['deleted']);
                     $records[$row['id']] = $row;
@@ -102,8 +104,11 @@ class SystemDataUsers extends SystemData {
         $db = \DBManagerFactory::getInstance();
 
         if(!empty($user_id)) {
-            $query = "UPDATE dashboards SET deleted = '1' WHERE assigned_user_id = '".$db->quote($user_id)."'"; 
-            $res = $db->query($query);
+            $builder = $db->getConnection()->createQueryBuilder();
+            $builder->update('dashboards');
+            $builder->set('deleted', '1');
+            $builder->where('assigned_user_id = ' . $builder->createPositionalParameter($user_id));
+            $res = $builder->execute();
         }
     }
 
@@ -113,12 +118,15 @@ class SystemDataUsers extends SystemData {
         $records = array();
         
         if(!empty($user_id)) {
-            $query = "SELECT * " .
-                "FROM user_preferences " .
-                "WHERE deleted = 0 AND assigned_user_id='".$db->quote($user_id)."' order by id ";
-            $res = $db->query($query);
+            $builder = $db->getConnection()->createQueryBuilder();
+            $builder->select('*')->from('user_preferences');
+            $builder->where("deleted = '0'");
+            $builder->andWhere('assigned_user_id = ' . $builder->createPositionalParameter($user_id)); 
+            $builder->orderBy('id');
+          
+            $res = $builder->execute();
 
-            while ($row = $db->fetchByAssoc($res)) {
+            while ($row = $res->fetch()) {
                 if(!empty($row['id'])) {
                     unset($row['deleted']);
 
@@ -137,8 +145,11 @@ class SystemDataUsers extends SystemData {
         $db = \DBManagerFactory::getInstance();
 
         if(!empty($user_id)) {
-            $query = "UPDATE user_preferences SET deleted = '1' WHERE assigned_user_id = '".$db->quote($user_id)."'"; 
-            $res = $db->query($query);
+            $builder = $db->getConnection()->createQueryBuilder();
+            $builder->update('user_preferences');
+            $builder->set('deleted', '1');
+            $builder->where('assigned_user_id = ' . $builder->createPositionalParameter($user_id));
+            $res = $builder->execute();
         }
     }
 
@@ -358,6 +369,8 @@ class SystemDataUsers extends SystemData {
             $u = \BeanFactory::getBean('Users', $user_params['fields']['id']);
 
             if(!empty($u) && !empty($u->id)) {
+                $db = \DBManagerFactory::getInstance();
+
                 foreach($user_params['dashboards'] as $dashboard_id => $dashboard_content) {
 
                     // retrieve even if deleted on the other environment, to allow restoring
@@ -377,8 +390,12 @@ class SystemDataUsers extends SystemData {
                         $d->save();
 
                         // system overwrites the id of assigned user as the current user... need to set it back manually!
-                        $query = "UPDATE dashboards SET assigned_user_id = '".$GLOBALS['db']->quote($u->id)."' WHERE id = '".$GLOBALS['db']->quote($d->id)."'";
-                        $GLOBALS['db']->query($query); 
+
+                        $builder = $db->getConnection()->createQueryBuilder();
+                        $builder->update('dashboards');
+                        $builder->set('assigned_user_id', $builder->createPositionalParameter($u->id));
+                        $builder->where('id = ' . $builder->createPositionalParameter($d->id));
+                        $res = $builder->execute();
                     }
                 }
                 
