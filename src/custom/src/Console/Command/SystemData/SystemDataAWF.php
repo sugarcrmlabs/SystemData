@@ -178,10 +178,10 @@ class SystemDataAWF extends SystemData {
     public function truncateAllProcessTables() {
         $db = \DBManagerFactory::getInstance();
         foreach($this->modules_to_sync as $table => $module) {
-            $db->truncateTableSQL($db->quote($table));
+            $db->query($db->truncateTableSQL($db->quote($table)));
         }
         foreach($this->modules_not_to_sync as $table => $module) {
-            $db->truncateTableSQL($db->quote($table));
+            $db->query($db->truncateTableSQL($db->quote($table)));
         }
     }
 
