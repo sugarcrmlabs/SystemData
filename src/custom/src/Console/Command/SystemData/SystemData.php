@@ -9,8 +9,8 @@ class SystemData {
 
     public function checkPath($path) {
         if(!is_dir($path)) {
-            // mkdir
-            sugar_mkdir($path);
+            // mkdir recursively
+            sugar_mkdir($path, null, true);
         }
 
         // does it have trailing slash?
