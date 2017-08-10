@@ -25,7 +25,8 @@ It updates and creates records aligning them to the JSON files provided as input
 
 It does NOT add fields/customisations for you. The assumption is that you already have the same exact code deployed on multiple instances, and you want to re-populate some of the data that lets you use a system.<br />
 It does NOT remove records that are on an instance, and that are not present on your JSON file(s).<br />
-It does NOT remove Users from Teams or Roles, it only adds Users to them.
+It does NOT remove Users from Teams or Roles, it only adds Users to them.<br />
+It does NOT copy the user's pictures for you. You will have to transfer across the upload folder's content between systems.
 
 ## In more depth
 ### Features
@@ -93,6 +94,10 @@ In Debian the Apache default user is `www-data`, in RedHat/CentOS is `httpd`. Pl
 
 
 IMPORTANT: Make sure to keep the users.json file safe. User's passwords (even if hashed) are available on that file.
+
+## Testing
+TESTING IS DISTUPTIVE AND WILL WIPE YOUR DATABASE.
+Do not test the script with its own tools on any production like environment. To run the test command you actually have to type as agreement the argument `i-agree-to-completely-delete-my-database`
 
 ## Contributing
 Everyone is welcome to contribute to this project! If you make a contribution, then the [Contributor Terms](CONTRIBUTOR_TERMS.pdf) apply to your submission.

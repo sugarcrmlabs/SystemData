@@ -9,6 +9,7 @@ class SystemDataUsers extends SystemData {
 
     public function getUsers() {
         global $current_user;
+
         $db = \DBManagerFactory::getInstance();
 
         // retrieve also deleted
@@ -17,12 +18,17 @@ class SystemDataUsers extends SystemData {
         $builder->orderBy('id');
         $res = $builder->execute();
 
+        $team_fields = array(
+            'team_set_id' => 'team_set_data',
+            'acl_team_set_id' => 'acl_team_set_data',
+            'default_team' => 'default_team_data',
+            'team_id' => 'team_data',
+        );
+
         $list_users = array();
 
         while ($row = $res->fetch()) {
             if(!empty($row['id']) && !empty($row['user_name'])) {
-                //$u = \BeanFactory::getBean('Users', $row['id']);
-
                 // allow retrieval of deleted users as well
                 $u = \BeanFactory::getBean('Users', $row['id'], array(), false);
 
@@ -33,9 +39,21 @@ class SystemDataUsers extends SystemData {
                             $list_users[$u->id]['fields'][$user_actual_field_name] = $u->$user_actual_field_name;
                         }
                     }
+                    unset($list_users[$u->id]['fields']['acl_role_set_id']);
+                    unset($list_users[$u->id]['fields']['email1']);
 
                     if(!$u->deleted) {
                         unset($list_users[$u->id]['fields']['deleted']);
+
+                        // TODO: write on guide to copy the files on upload folder as there might be profile pictures
+
+                        foreach($team_fields as $team_src_field => $team_dst_field) {
+                            // get team set team membership and users for private teams if this field exists and it is not empty
+                            if(!empty($list_users[$u->id]['fields'][$team_src_field])) {
+                                $list_users[$u->id]['fields'][$team_dst_field] = $this->getTeamsOrUsersRelevantToTeamset($list_users[$u->id]['fields'][$team_src_field]);
+                                unset($list_users[$u->id]['fields'][$team_src_field]);
+                            }
+                        }
 
                         // get additional explicit team membership
                         $teams = $u->get_my_teams($u->id);
@@ -105,8 +123,7 @@ class SystemDataUsers extends SystemData {
 
         if(!empty($user_id)) {
             $builder = $db->getConnection()->createQueryBuilder();
-            $builder->update('dashboards');
-            $builder->set('deleted', '1');
+            $builder->delete('dashboards');
             $builder->where('assigned_user_id = ' . $builder->createPositionalParameter($user_id));
             $res = $builder->execute();
         }
@@ -145,9 +162,21 @@ class SystemDataUsers extends SystemData {
         $db = \DBManagerFactory::getInstance();
 
         if(!empty($user_id)) {
+
+            // reset all the current user preferences from cache too or we might get skewed values
+            $current_preferences = $this->getUserPreferences($user_id);
+            if(!empty($current_preferences)) {
+                $u = \BeanFactory::getBean('Users', $user_id);
+                if(!empty($u) && !empty($u->id)) { 
+                    foreach($current_preferences as $current_preference) {
+                        $u->resetPreferences($current_preference['category']);
+                    }
+                }
+            }
+
+            // now delete from db
             $builder = $db->getConnection()->createQueryBuilder();
-            $builder->update('user_preferences');
-            $builder->set('deleted', '1');
+            $builder->delete('user_preferences');
             $builder->where('assigned_user_id = ' . $builder->createPositionalParameter($user_id));
             $res = $builder->execute();
         }
@@ -162,109 +191,48 @@ class SystemDataUsers extends SystemData {
             $res['update'] = array();
             $res['create'] = array(); 
 
-            while(count($users) > 0) {
+            // first run of saves to save all user's bones first (with private teams and all)
+            foreach($users as $user) {
 
-                // get first element
-                
-                // reverse content keeping keys
-                $users = array_reverse($users, true);
-                // get last element
-                $user = array_pop($users);
-                // reverse content keeping keys
-                $users = array_reverse($users, true);
-               
-                // this will only save the record if reports to is empty, or if there is already the report to in the db, or it will empty it out reports to field if there is no record already in the db and on the import file
-                $current_res = $this->saveUser($user['fields'], $users);
+                // unset all fields that need to be saved on the next run if present
+                unset($user['fields']['reports_to_id']);
+                unset($user['fields']['team_set_data']);
+                unset($user['fields']['team_set_id']);
+                unset($user['fields']['acl_team_set_data']);
+                unset($user['fields']['acl_team_set_id']);
+                unset($user['fields']['default_team_data']);
+                unset($user['fields']['default_team']);
+                unset($user['fields']['team_data']);
+                unset($user['fields']['team_id']);
+                unset($user['fields']['acl_role_set_id']);
+    
+                $current_res = $this->saveBean('Users', $user['fields']);
 
-                //if(!empty($current_res['reports_to_id'])) {
-                if($current_res['saved'] === false) {
-                    // put the current record back on the queue
-                    // add as last element
-                    $users[$user['fields']['id']] = $user;
-                } else {
-
-                    if(!empty($current_res['update'])) {
-                        $res['update'][$user['fields']['id']] = $user['fields']['user_name'];
-                    } else if(!empty($current_res['create'])) {
-                        $res['create'][$user['fields']['id']] = $user['fields']['user_name'];
-                    }
-
-                    // save preferences
-                    $this->clearPreviousUserPreferences($user['fields']['id']);
-                    $this->saveUserPreferences($user);
-
-                    // save dashboards
-                    $this->clearPreviousUserDashboards($user['fields']['id']);
-                    $this->saveUserDashboards($user);
+                if(!empty($current_res['update'])) {
+                    $res['update'][$user['fields']['id']] = $user['fields']['user_name'];
+                } else if(!empty($current_res['create'])) {
+                    $res['create'][$user['fields']['id']] = $user['fields']['user_name'];
                 }
+            }
+
+            // second run of saves to save all user's preferences, dashboards, default teams, reports to etc
+            foreach($users as $user) {
+                unset($user['fields']['acl_role_set_id']);
+
+                $this->saveBean('Users', $user['fields']);
+
+                // save preferences
+                $this->clearPreviousUserPreferences($user['fields']['id']);
+                $this->saveUserPreferences($user);
+
+                // save dashboards
+                $this->clearPreviousUserDashboards($user['fields']['id']);
+                $this->saveUserDashboards($user);
             }
 
             return $res;
         }
         return false; 
-    }
-
-    public function saveUser($user_params, $users = array()) {
-        // get also deleted records, so we undelete them if there is a match, instead of having a db error
-        $u = \BeanFactory::getBean('Users', $user_params['id'], array(), false);
-
-        $res = array();
-        $res['update'] = array();
-        $res['create'] = array(); 
-        $res['reports_to_id'] = '';
-        $res['saved'] = false;
-
-        if(!empty($u) && !empty($u->id)) {
-            $res['update'][$u->id] = $u->user_name;
-        } else {
-            $res['create'][$user_params['id']] = $user_params['user_name'];
-            // creating with existing guid
-            $u = \BeanFactory::newBean('Users');
-            $u->new_with_id = true;
-            $u->id = $user_params['id'];
-        }
-
-        foreach($user_params as $ufield => $uvalue) {
-            if($ufield != 'id' && $ufield != 'email') {
-                $u->$ufield = $uvalue;
-            }
-        }
-
-        // check for report to
-        if(!empty($u->reports_to_id)) {
-            // does the user already exist?
-            $u_reports = \BeanFactory::getBean('Users', $u->reports_to_id);
-            if(empty($u_reports->id)) {
-                // does the user exits on this file?
-                if(!empty($users[$u->reports_to_id])) {
-                    // we need to re-process this user, put back in the list
-                    $res['reports_to_id'] = $u->reports_to_id;
-                } else {
-                    // user is not in the list, setting empty
-                    $u->reports_to_id = '';
-                }
-            }
-        }
-
-        // undelete if deleted
-        if($u->deleted && !$user_params['deleted']) {
-            $u->mark_undeleted($u->id);
-            // TODO global team access?
-            // TODO private team undelete and relate?
-        }
-
-        // handle deletion
-        if($user_params['deleted'] && !$u->deleted) {
-            $u->mark_deleted($u->id);
-        }
-
-        if(empty($res['reports_to_id'])) {
-            $u->save();
-            $res['saved'] = true;
-
-        }
-
-        return $res;
     }
 
     public function saveTeamsMembership($users) {
@@ -333,28 +301,17 @@ class SystemDataUsers extends SystemData {
             if(!empty($u) && !empty($u->id)) {
                 foreach($user_params['preferences'] as $preference_id => $preference_content) {
 
-                    // retrieve even if deleted on the other environment, to allow restoring
-                    $p = \BeanFactory::getBean('UserPreferences', $preference_id, array(), false);
+                    $params = array();
+                    $params['assigned_user_id'] = $u->id;
 
-                    if(!empty($p) && !empty($p->id)) {
-
-                        // undelete if deleted
-                        if($p->deleted) {
-                            $p->mark_undeleted($p->id);
+                    foreach($preference_content as $field_name => $field_content) {
+                        // re-encode as for clarity we decoded it on export
+                        if($field_name == 'contents') {
+                            $field_content = base64_encode($field_content);
                         }
-                       
-                        foreach($preference_content as $field_name => $field_content) {
-                            // re-encode as for clarity we decoded it on export
-                            if($field_name == 'contents') {
-                                $field_content = base64_encode($field_content);
-                            }
-                            $p->$field_name = $field_content;
-                        }
-                
-                        $p->assigned_user_id = $u->id;
-
-                        $p->save();
+                        $params[$field_name] = $field_content;
                     }
+                    $this->saveBean('UserPreferences', $params); 
                 }
                 
                 return true;
@@ -373,30 +330,14 @@ class SystemDataUsers extends SystemData {
 
                 foreach($user_params['dashboards'] as $dashboard_id => $dashboard_content) {
 
-                    // retrieve even if deleted on the other environment, to allow restoring
-                    $d = \BeanFactory::getBean('Dashboards', $dashboard_id, array(), false);
+                    $this->saveBean('Dashboards', $dashboard_content); 
 
-                    if(!empty($d) && !empty($d->id)) {
-
-                        // undelete if deleted
-                        if($d->deleted) {
-                            $d->mark_undeleted($d->id);
-                        }
-                       
-                        foreach($dashboard_content as $field_name => $field_content) {
-                            $d->$field_name = $field_content;
-                        }
-
-                        $d->save();
-
-                        // system overwrites the id of assigned user as the current user... need to set it back manually!
-
-                        $builder = $db->getConnection()->createQueryBuilder();
-                        $builder->update('dashboards');
-                        $builder->set('assigned_user_id', $builder->createPositionalParameter($u->id));
-                        $builder->where('id = ' . $builder->createPositionalParameter($d->id));
-                        $res = $builder->execute();
-                    }
+                    // system overwrites the id of assigned user as the current user... need to set it back manually!
+                    $builder = $db->getConnection()->createQueryBuilder();
+                    $builder->update('dashboards');
+                    $builder->set('assigned_user_id', $builder->createPositionalParameter($u->id));
+                    $builder->where('id = ' . $builder->createPositionalParameter($dashboard_id));
+                    $res = $builder->execute();
                 }
                 
                 return true;
