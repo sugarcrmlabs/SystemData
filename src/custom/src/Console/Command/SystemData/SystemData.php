@@ -9,8 +9,8 @@ class SystemData {
 
     public function checkPath($path) {
         if(!is_dir($path)) {
-            // mkdir
-            sugar_mkdir($path);
+            // mkdir recursively
+            sugar_mkdir($path, null, true);
         }
 
         // does it have trailing slash?
@@ -76,6 +76,9 @@ class SystemData {
     // expects same format returned from getPublicTeamsAndUsers
 
     public function setPublicTeamsAndUsers($teams_and_users) {
+
+        $return = false;
+
         if(!empty($teams_and_users)) {
             $teams = array();
             if(!empty($teams_and_users['users_private_teams'])) {
@@ -83,6 +86,8 @@ class SystemData {
                     $private_team_id = $this->getUserPrivateTeam($user_id);
                     if(!empty($private_team_id)) {
                         $teams[$private_team_id] = $private_team_id;
+                        // to make sure we return this, if there are only private teams
+                        $return = $private_team_id;
                     } else {
                         // could not find, stop import
                         return false;
@@ -102,7 +107,7 @@ class SystemData {
             }
         }
     
-        return false;
+        return $return;
     }
 
     // for 7.8 onwards pass either content of team_set_id or acl_team_set_id
@@ -117,6 +122,9 @@ class SystemData {
 
             if(!empty($teams)) {
                 $results = $this->getPublicTeamsAndUsers($teams);
+            } else {
+                // single team, not teamset
+                $results = $this->getPublicTeamsAndUsers(array($teamset_id));
             }
         }
 
@@ -170,27 +178,30 @@ class SystemData {
             $db = \DBManagerFactory::getInstance();
 
             // retrieve also deleted
-            $query = "SELECT * " .
-                "FROM " . $db->quote($table_name) . " " .
-                "order by " . $db->quote($display_field)  . ", id ";
-            $res = $db->query($query);
+            $builder = $db->getConnection()->createQueryBuilder();
+            $builder->select('*')->from($table_name);
+            $builder->orderBy($display_field);
+            $builder->addOrderBy('id');
+          
+            $res = $builder->execute();
 
-            while ($row = $db->fetchByAssoc($res)) {
+            $team_fields = array(
+                'team_set_id' => 'team_set_data',
+                'acl_team_set_id' => 'acl_team_set_data',
+            );
+
+            while ($row = $res->fetch()) {
                 if(!empty($row['id'])) {
                     foreach($row as $field => $value) {
                         $list_records[$row['id']][$field] = $value;
                     }
 
-                    // get team set team membership and users for private teams if this field exists and it is not empty
-                    if(!empty($row['team_set_id'])) {
-                        $list_records[$row['id']]['team_set_data'] = $this->getTeamsOrUsersRelevantToTeamset($row['team_set_id']);
-                        unset($list_records[$row['id']]['team_set_id']);
-                    }
-                    
-                    // get team set team membership and users for private teams for the acl feature if the field exists and it is not empty
-                    if(!empty($row['acl_team_set_id'])) {
-                        $list_records[$row['id']]['acl_team_set_data'] = $this->getTeamsOrUsersRelevantToTeamset($row['acl_team_set_id']);
-                        unset($list_records[$row['id']]['acl_team_set_id']);
+                    foreach($team_fields as $team_src_field => $team_dst_field) {
+                        // get team set team membership and users for private teams if this field exists and it is not empty
+                        if(!empty($row[$team_src_field])) {
+                            $list_records[$row['id']][$team_dst_field] = $this->getTeamsOrUsersRelevantToTeamset($row[$team_src_field]);
+                            unset($list_records[$row['id']][$team_src_field]);
+                        }
                     }
 
                     // if not deleted, remove the field
@@ -247,27 +258,31 @@ class SystemData {
         if(!empty($bean_name)) {
 
             // create team sets
-            $team_set_error = false;
-            if(!empty($params['team_set_data'])) {
-                $params['team_set_id'] = $this->setPublicTeamsAndUsers($params['team_set_data']);
-                if(empty($params['team_set_id'])) {
-                    $team_set_error = true;
-                }
-                unset($params['team_set_data']);
+            $teams_errors = false;
+
+            $team_fields = array(
+                'team_set_data' => 'team_set_id',
+                'acl_team_set_data' => 'acl_team_set_id',
+            );
+
+            // add few more fields if Users
+            if($bean_name == 'Users') {
+                $team_fields['default_team_data'] = 'default_team';
+                $team_fields['team_data'] = 'team_id';
             }
 
-            // create team sets
-            $acl_team_set_error = false;
-            if(!empty($params['acl_team_set_data'])) {
-                $params['acl_team_set_id'] = $this->setPublicTeamsAndUsers($params['acl_team_set_data']);
-                if(empty($params['acl_team_set_id'])) {
-                    $acl_team_set_error = true;
+            foreach($team_fields as $team_src_field => $team_dst_field) {
+                unset($params[$team_dst_field]);
+                if(!empty($params[$team_src_field])) {
+                    $params[$team_dst_field] = $this->setPublicTeamsAndUsers($params[$team_src_field]);
+                    if(empty($params[$team_dst_field])) {
+                        $teams_errors = true;
+                    }
+                    unset($params[$team_src_field]);
                 }
-                unset($params['acl_team_set_data']);
             }
 
-
-            if(empty($team_set_error) && empty($acl_team_set_error)) {
+            if(empty($teams_errors)) {
 
                 // get also deleted records, so we undelete them if there is a match, instead of having a db error
                 $b = \BeanFactory::getBean($bean_name, $params['id'], array(), false);
@@ -296,6 +311,20 @@ class SystemData {
                 // delete if deleted
                 if($params['deleted'] && !$b->deleted) {
                     $b->mark_deleted($b->id);
+                }
+
+                // preserve date date modified
+                if(!empty($b->date_modified)) {
+                    $b->update_date_modified = false;
+                }
+    
+                if(!empty($b->modified_user_id)) {
+                    $b->update_modified_by = false;
+                }
+
+                // preserve created by
+                if(!empty($b->created_by)) {
+                    $b->set_created_by = false;
                 }
 
                 $b->save();

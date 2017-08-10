@@ -4,7 +4,7 @@ CLI System Data is a command line tool built to simplify some of the data transf
 The System Data tool helps you export and import some of the data available in Sugar using JSON data files.
 
 ## Requirements
-It requires Sugar version 7.8 or above, with the new CLI framework.<br />
+It requires Sugar version 7.9 or above, with the new CLI framework and with prepared statements. The latest release has been built on 7.9.1.0<br />
 It requires to be able to run the Sugar CLI framework.<br />
 It requires that the source and destinations systems are exactly the same in terms of code and customizations (including if changes are completed via Studio/Module Builder).
 
@@ -25,7 +25,8 @@ It updates and creates records aligning them to the JSON files provided as input
 
 It does NOT add fields/customisations for you. The assumption is that you already have the same exact code deployed on multiple instances, and you want to re-populate some of the data that lets you use a system.<br />
 It does NOT remove records that are on an instance, and that are not present on your JSON file(s).<br />
-It does NOT remove Users from Teams or Roles, it only adds Users to them.
+It does NOT remove Users from Teams or Roles, it only adds Users to them.<br />
+It does NOT copy the user's pictures for you. You will have to transfer across the upload folder's content between systems.
 
 ## In more depth
 ### Features
@@ -94,6 +95,10 @@ In Debian the Apache default user is `www-data`, in RedHat/CentOS is `httpd`. Pl
 
 IMPORTANT: Make sure to keep the users.json file safe. User's passwords (even if hashed) are available on that file.
 
+## Testing
+TESTING IS DISTUPTIVE AND WILL WIPE YOUR DATABASE.
+Do not test the script with its own tools on any production like environment. To run the test command you actually have to type as agreement the argument `i-agree-to-completely-delete-my-database`
+
 ## Contributing
 Everyone is welcome to contribute to this project! If you make a contribution, then the [Contributor Terms](CONTRIBUTOR_TERMS.pdf) apply to your submission.
 
@@ -105,4 +110,4 @@ Please check out our [Contribution Guidelines](CONTRIBUTING.md) for helpful hint
 Changelog is available [here](CHANGELOG.md)
 
 -----
-Copyright (c) 2016 SugarCRM Inc. Licensed by SugarCRM under the Apache 2.0 license.
+Copyright (c) 2017 SugarCRM Inc. Licensed by SugarCRM under the Apache 2.0 license.

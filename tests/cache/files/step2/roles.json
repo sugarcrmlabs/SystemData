@@ -1,0 +1,427 @@
+{
+    "f3c9b74c-78d2-11e7-8f2c-f621e0bfd296": {
+        "role_info": {
+            "id": "f3c9b74c-78d2-11e7-8f2c-f621e0bfd296",
+            "name": "Default Role",
+            "description": "Default Role"
+        },
+        "modules_info": {
+            "Accounts": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_NONE",
+                "edit": "ACL_ALLOW_OWNER",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Bugs": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Calls": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_OWNER",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Campaigns": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Cases": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Contacts": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_NONE",
+                "edit": "ACL_ALLOW_ALL",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Contracts": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Documents": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "EAPM": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "EmailMarketing": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Emails": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "EmailTemplates": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Forecasts": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "KBContents": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Leads": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Meetings": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Notes": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Notifications": {
+                "access": "ACL_ALLOW_DEFAULT",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Opportunities": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "PdfManager": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "pmse_Inbox": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "ProductCategories": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Products": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Project": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "ProjectTask": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "ProspectLists": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Prospects": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Quotes": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Reports": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "RevenueLineItems": {
+                "access": "ACL_ALLOW_ENABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Tags": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Tasks": {
+                "access": "ACL_ALLOW_DISABLED",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "TrackerPerfs": {
+                "access": "ACL_ALLOW_DEFAULT",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "TrackerQueries": {
+                "access": "ACL_ALLOW_DEFAULT",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Trackers": {
+                "access": "ACL_ALLOW_DEFAULT",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "TrackerSessions": {
+                "access": "ACL_ALLOW_DEFAULT",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            },
+            "Users": {
+                "admin": "ACL_ALLOW_DEFAULT"
+            },
+            "WebLogicHooks": {
+                "access": "ACL_ALLOW_DEFAULT",
+                "admin": "ACL_ALLOW_DEFAULT",
+                "delete": "ACL_ALLOW_DEFAULT",
+                "edit": "ACL_ALLOW_DEFAULT",
+                "export": "ACL_ALLOW_DEFAULT",
+                "import": "ACL_ALLOW_DEFAULT",
+                "list": "ACL_ALLOW_DEFAULT",
+                "massupdate": "ACL_ALLOW_DEFAULT",
+                "view": "ACL_ALLOW_DEFAULT"
+            }
+        },
+        "fields_info": {
+            "Accounts": {
+                "annual_revenue": "ACL_READ_OWNER_WRITE",
+                "assigned_user_name": "ACL_READ_OWNER_WRITE"
+            }
+        }
+    }
+}
