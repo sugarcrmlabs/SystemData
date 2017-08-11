@@ -96,7 +96,7 @@ In Debian the Apache default user is `www-data`, in RedHat/CentOS is `httpd`. Pl
 IMPORTANT: Make sure to keep the users.json file safe. User's passwords (even if hashed) are available on that file.
 
 ## Testing
-TESTING IS DISTUPTIVE AND WILL WIPE YOUR DATABASE.
+TESTING IS DISRUPTIVE AND WILL WIPE YOUR DATABASE.
 Do not test the script with its own tools on any production like environment. To run the test command you actually have to type as agreement the argument `i-agree-to-completely-delete-my-database`
 
 ## Contributing
