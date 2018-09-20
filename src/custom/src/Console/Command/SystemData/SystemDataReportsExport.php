@@ -34,7 +34,7 @@ class SystemDataReportsExport extends Command implements InstanceModeInterface {
         $path = $input->getArgument('path');
         $data = $this->data()->getReports();
         $file = $this->data()->checkPath($path).'reports.json';
-        $this->data()->putData($file, $data);
+        $this->data()->putData($file, array('reports' => $data));
         $output->writeln(count($data).' Report(s) exported into '.$file);
     }
 }

@@ -49,7 +49,7 @@ class SystemDataUsers extends SystemData {
 
                         foreach($team_fields as $team_src_field => $team_dst_field) {
                             // get team set team membership and users for private teams if this field exists and it is not empty
-                            if(!empty($list_users[$u->id]['fields'][$team_src_field])) {
+                            if(isset($list_users[$u->id]['fields'][$team_src_field])) {
                                 $list_users[$u->id]['fields'][$team_dst_field] = $this->getTeamsOrUsersRelevantToTeamset($list_users[$u->id]['fields'][$team_src_field]);
                                 unset($list_users[$u->id]['fields'][$team_src_field]);
                             }
@@ -107,10 +107,27 @@ class SystemDataUsers extends SystemData {
           
             $res = $builder->execute();
 
+            $team_fields = array(
+                'team_set_id' => 'team_set_data',
+                'acl_team_set_id' => 'acl_team_set_data',
+                'team_id' => 'team_data',
+            );
+
             while ($row = $res->fetch()) {
                 if(!empty($row['id'])) {
                     unset($row['deleted']);
                     $records[$row['id']] = $row;
+
+                    foreach($team_fields as $team_src_field => $team_dst_field) {
+                        // get team set team membership and users for private teams if this field exists and it is not empty
+                        if(!empty($row[$team_src_field])) {
+                            $records[$row['id']][$team_dst_field] = $this->getTeamsOrUsersRelevantToTeamset($row[$team_src_field]);
+                            if (empty($records[$row['id']][$team_dst_field]) || empty(array_filter($records[$row['id']][$team_dst_field]))) {
+                                $records[$row['id']][$team_dst_field] = null;
+                            }
+                            unset($records[$row['id']][$team_src_field]);
+                        }
+                    }
                 }
             }
         }

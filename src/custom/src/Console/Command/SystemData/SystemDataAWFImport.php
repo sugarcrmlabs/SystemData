@@ -34,7 +34,7 @@ class SystemDataAWFImport extends Command implements InstanceModeInterface {
         $path = $input->getArgument('path');
         if($this->data()->checkJsonFile($path)) {
             $data = $this->data()->getData($path);
-            $res = $this->data()->saveAWFArrays($data);
+            $res = $this->data()->saveAWFArrays($data['awf']);
             if(!empty($res['errors'])) {
                 foreach($res['errors'] as $message) {
                     $output->writeln($message);

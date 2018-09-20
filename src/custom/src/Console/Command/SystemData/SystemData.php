@@ -188,6 +188,7 @@ class SystemData {
             $team_fields = array(
                 'team_set_id' => 'team_set_data',
                 'acl_team_set_id' => 'acl_team_set_data',
+                'team_id' => 'team_data',
             );
 
             while ($row = $res->fetch()) {
@@ -263,12 +264,12 @@ class SystemData {
             $team_fields = array(
                 'team_set_data' => 'team_set_id',
                 'acl_team_set_data' => 'acl_team_set_id',
+                'team_data' => 'team_id',
             );
 
             // add few more fields if Users
             if($bean_name == 'Users') {
                 $team_fields['default_team_data'] = 'default_team';
-                $team_fields['team_data'] = 'team_id';
             }
 
             foreach($team_fields as $team_src_field => $team_dst_field) {

@@ -50,8 +50,8 @@ class SystemDataTester extends SystemData {
         'pmse_emails_templates',
     );
 
-    private $src_folder = './cache/files/';
-    private $dst_folder = './cache/files/export/';
+    private $src_directory = './cache/files/';
+    private $dst_directory = './cache/files/export/';
 
     public function truncateAllTables()
     {
@@ -82,39 +82,39 @@ class SystemDataTester extends SystemData {
     public function executeInitialStep($input, $output)
     {
         $command = new SystemDataUsersImport();
-        $res = $command->run(new ArrayInput(array('path' => $this->src_folder.'step0/users.json')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->src_directory.'step0/users.json')), $output);
     }
 
     public function executeStep($step, $input, $output)
     {
         $command = new SystemDataTeamsImport();
-        $res = $command->run(new ArrayInput(array('path' => $this->src_folder.'step'.(int)$step.'/teams.json')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->src_directory.'step'.(int)$step.'/teams.json')), $output);
         $command = new SystemDataRolesImport();
-        $res = $command->run(new ArrayInput(array('path' => $this->src_folder.'step'.(int)$step.'/roles.json')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->src_directory.'step'.(int)$step.'/roles.json')), $output);
         $command = new SystemDataUsersImport();
-        $res = $command->run(new ArrayInput(array('path' => $this->src_folder.'step'.(int)$step.'/users.json')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->src_directory.'step'.(int)$step.'/users.json')), $output);
         $command = new SystemDataTeamsMembershipImport();
-        $res = $command->run(new ArrayInput(array('path' => $this->src_folder.'step'.(int)$step.'/users.json')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->src_directory.'step'.(int)$step.'/users.json')), $output);
         $command = new SystemDataRolesMembershipImport();
-        $res = $command->run(new ArrayInput(array('path' => $this->src_folder.'step'.(int)$step.'/users.json')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->src_directory.'step'.(int)$step.'/users.json')), $output);
         $command = new SystemDataReportsImport();
-        $res = $command->run(new ArrayInput(array('path' => $this->src_folder.'step'.(int)$step.'/reports.json')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->src_directory.'step'.(int)$step.'/reports.json')), $output);
         $command = new SystemDataAWFImport();
-        $res = $command->run(new ArrayInput(array('path' => $this->src_folder.'step'.(int)$step.'/awf.json')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->src_directory.'step'.(int)$step.'/awf.json')), $output);
     }
 
     public function verifyStep($step, $input, $output)
     {
         $command = new SystemDataTeamsExport();
-        $res = $command->run(new ArrayInput(array('path' => $this->dst_folder.'step'.(int)$step.'/')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->dst_directory.'step'.(int)$step.'/')), $output);
         $command = new SystemDataRolesExport();
-        $res = $command->run(new ArrayInput(array('path' => $this->dst_folder.'step'.(int)$step.'/')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->dst_directory.'step'.(int)$step.'/')), $output);
         $command = new SystemDataUsersExport();
-        $res = $command->run(new ArrayInput(array('path' => $this->dst_folder.'step'.(int)$step.'/')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->dst_directory.'step'.(int)$step.'/')), $output);
         $command = new SystemDataReportsExport();
-        $res = $command->run(new ArrayInput(array('path' => $this->dst_folder.'step'.(int)$step.'/')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->dst_directory.'step'.(int)$step.'/')), $output);
         $command = new SystemDataAWFExport();
-        $res = $command->run(new ArrayInput(array('path' => $this->dst_folder.'step'.(int)$step.'/')), $output);
+        $res = $command->run(new ArrayInput(array('path' => $this->dst_directory.'step'.(int)$step.'/')), $output);
 
         return !$this->isDifferent($step);
     }
@@ -132,8 +132,8 @@ class SystemDataTester extends SystemData {
         $return = false;
 
         foreach($to_verify as $file) {
-            $src = $this->getData($this->src_folder.'step'.(int)$step.'/'.$file);
-            $export = $this->getData($this->dst_folder.'step'.(int)$step.'/'.$file);
+            $src = $this->getData($this->src_directory.'step'.(int)$step.'/'.$file);
+            $export = $this->getData($this->dst_directory.'step'.(int)$step.'/'.$file);
 
             if($file == 'users.json') {
                 // remove some stuff that would make the records look different even if they are not
@@ -141,9 +141,12 @@ class SystemDataTester extends SystemData {
                 $export = $this->removeUnwatendUsersElements($export);
             }
 
-            $diff1 = deepArrayDiff($src, $export);
-            $diff2 = deepArrayDiff($export, $src);
+            $diff1 = deepArrayDiff($src, $export, false);
+            $diff2 = deepArrayDiff($export, $src, false);
             if(!empty($diff1) || !empty($diff2)) {
+                echo PHP_EOL . 'There was a problem with the following files: ' .
+                    $this->src_directory.'step'.(int)$step.'/'.$file . ' and: ' .
+                    $this->dst_directory.'step'.(int)$step.'/'.$file . PHP_EOL;
                 
                 print_r($diff1);
                 print_r($diff2);
@@ -157,19 +160,19 @@ class SystemDataTester extends SystemData {
 
     public function removeUnwatendUsersElements($data)
     {
-        foreach($data as $userkey => $user) {
+        foreach($data['users'] as $userkey => $user) {
             if(!empty($user['fields'])) {
 
                 // unset fields that might be different and expected to be
-                unset($data[$userkey]['fields']['pwd_last_changed']);
-                unset($data[$userkey]['fields']['date_entered']);
-                unset($data[$userkey]['fields']['date_modified']);
-                unset($data[$userkey]['fields']['last_login']);
-                unset($data[$userkey]['fields']['modified_by_name']);
-                unset($data[$userkey]['fields']['email1']);
+                unset($data['users'][$userkey]['fields']['pwd_last_changed']);
+                unset($data['users'][$userkey]['fields']['date_entered']);
+                unset($data['users'][$userkey]['fields']['date_modified']);
+                unset($data['users'][$userkey]['fields']['last_login']);
+                unset($data['users'][$userkey]['fields']['modified_by_name']);
+                unset($data['users'][$userkey]['fields']['email1']);
 
                 // the role set will be different every time, but we keep in line the 'roles' a user is part of
-                unset($data[$userkey]['fields']['acl_role_set_id']);
+                unset($data['users'][$userkey]['fields']['acl_role_set_id']);
 
                 // unset all empty fields as they might look like a difference
                 foreach($user['fields'] as $fieldname => $fieldvalue) {
@@ -177,24 +180,24 @@ class SystemDataTester extends SystemData {
                     if(is_array($fieldvalue)) {
                         foreach($fieldvalue as $teamfieldkey => $teamfieldvalue) {
                             if(empty($teamfieldvalue)) {
-                                unset($data[$userkey]['fields'][$fieldname][$teamfieldkey]);
+                                unset($data['users'][$userkey]['fields'][$fieldname][$teamfieldkey]);
                             }
                         } 
                     }
 
                     // remove empty fields
-                    if(empty($data[$userkey]['fields'][$fieldname])) {
-                        unset($data[$userkey]['fields'][$fieldname]);
+                    if(empty($data['users'][$userkey]['fields'][$fieldname])) {
+                        unset($data['users'][$userkey]['fields'][$fieldname]);
                     }
                 }
 
                 // unset fields from the email addresses that will definitely be different
                 if(!empty($user['fields']['email'])) {
                     foreach($user['fields']['email'] as $emailkey => $email) {
-                        unset($data[$userkey]['fields']['email'][$emailkey]['id']);
-                        unset($data[$userkey]['fields']['email'][$emailkey]['email_address_id']);
-                        unset($data[$userkey]['fields']['email'][$emailkey]['date_modified']);
-                        unset($data[$userkey]['fields']['email'][$emailkey]['date_created']);
+                        unset($data['users'][$userkey]['fields']['email'][$emailkey]['id']);
+                        unset($data['users'][$userkey]['fields']['email'][$emailkey]['email_address_id']);
+                        unset($data['users'][$userkey]['fields']['email'][$emailkey]['date_modified']);
+                        unset($data['users'][$userkey]['fields']['email'][$emailkey]['date_created']);
                     }
                 }
             }
@@ -203,7 +206,7 @@ class SystemDataTester extends SystemData {
                 foreach($user['preferences'] as $prefkey => $preference) {
                     if($preference['category'] == 'global') {
                         // ignore global as they might differ due to different calendar keys
-                        unset($data[$userkey]['preferences'][$prefkey]);
+                        unset($data['users'][$userkey]['preferences'][$prefkey]);
                     }
                 }
             }

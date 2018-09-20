@@ -34,7 +34,7 @@ class SystemDataTeamsExport extends Command implements InstanceModeInterface {
         $path = $input->getArgument('path');
         $data = $this->data()->getTeams();
         $file = $this->data()->checkPath($path).'teams.json';
-        $this->data()->putData($file, $data);
+        $this->data()->putData($file, array('teams' => $data));
         $output->writeln(count($data).' Team(s) exported into '.$file);
     }
 }

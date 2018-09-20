@@ -1,7 +1,9 @@
 {
-    "27c00230-78d4-11e7-aee3-66c61318ea7b": {
-        "id": "27c00230-78d4-11e7-aee3-66c61318ea7b",
-        "name": "Sales",
-        "description": null
+    "teams": {
+        "27c00230-78d4-11e7-aee3-66c61318ea7b": {
+            "id": "27c00230-78d4-11e7-aee3-66c61318ea7b",
+            "name": "Sales",
+            "description": null
+        }
     }
 }

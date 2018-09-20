@@ -34,7 +34,7 @@ class SystemDataUsersImport extends Command implements InstanceModeInterface {
         $path = $input->getArgument('path');
         if($this->data()->checkJsonFile($path)) {
             $data = $this->data()->getData($path);
-            $res = $this->data()->saveUsersArray($data);
+            $res = $this->data()->saveUsersArray($data['users']);
             $output->writeln('Users imported! '.count($res['update']).' record(s) updated, '.count($res['create']).' record(s) created.');
         } else {
             $output->writeln($path.' does not exist, aborting.');

@@ -34,7 +34,7 @@ class SystemDataUsersExport extends Command implements InstanceModeInterface {
         $path = $input->getArgument('path');
         $data = $this->data()->getUsers();
         $file = $this->data()->checkPath($path).'users.json';
-        $this->data()->putData($file, $data);
+        $this->data()->putData($file, array('users' => $data));
         $output->writeln(count($data).' User(s) exported into '.$file);
     }
 }

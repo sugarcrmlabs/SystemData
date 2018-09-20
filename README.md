@@ -26,7 +26,7 @@ It updates and creates records aligning them to the JSON files provided as input
 It does NOT add fields/customisations for you. The assumption is that you already have the same exact code deployed on multiple instances, and you want to re-populate some of the data that lets you use a system.<br />
 It does NOT remove records that are on an instance, and that are not present on your JSON file(s).<br />
 It does NOT remove Users from Teams or Roles, it only adds Users to them.<br />
-It does NOT copy the user's pictures for you. You will have to transfer across the upload folder's content between systems.
+It does NOT copy the user's pictures for you. You will have to transfer across the upload directory's content between systems BEFORE running the import script.
 
 ## In more depth
 ### Features
@@ -66,9 +66,11 @@ The order should be:
 This tool is only compatible with its own export files.
 
 ## Installation
-* Download the latest .zip package here: https://github.com/sugarcrmlabs/SystemData/releases/latest
+* Clone the repository
+* Run: composer install to retrieve the sugar-module-packager dependency
+* Generate the installable .zip Sugar module with: ./vendor/bin/package <version number>
 * Load the package in your target instance using Module Loader
-* Make sure the file located on `<sugar folder>/bin/sugarcrm` is executable
+* Make sure the file located on `<sugar directory>/bin/sugarcrm` is executable
 
 ## Use
 
@@ -110,4 +112,4 @@ Please check out our [Contribution Guidelines](CONTRIBUTING.md) for helpful hint
 Changelog is available [here](CHANGELOG.md)
 
 -----
-Copyright (c) 2017 SugarCRM Inc. Licensed by SugarCRM under the Apache 2.0 license.
+Copyright (c) 2018 SugarCRM Inc. Licensed by SugarCRM under the Apache 2.0 license.
