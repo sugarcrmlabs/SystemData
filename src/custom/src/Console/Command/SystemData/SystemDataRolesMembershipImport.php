@@ -10,12 +10,18 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataUsers;
+use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataCli;
 
 class SystemDataRolesMembershipImport extends Command implements InstanceModeInterface {
 
     // get common code
     protected function data() {
         return new SystemDataUsers();
+    }
+
+    protected function datacli() {
+        return new SystemDataCli();
     }
 
     protected function configure() {
@@ -32,8 +38,8 @@ class SystemDataRolesMembershipImport extends Command implements InstanceModeInt
     protected function execute(InputInterface $input, OutputInterface $output) {
 
         $path = $input->getArgument('path');
-        if($this->data()->checkJsonFile($path)) {
-            $data = $this->data()->getData($path);
+        if($this->datacli()->checkJsonFile($path)) {
+            $data = $this->datacli()->getData($path);
             $res = $this->data()->saveRolesMembership($data['users']);
             $output->writeln('Roles Membership imported! '.count($res['processed']).' Role(s) processed, '.(count($res['processed'], COUNT_RECURSIVE) - count($res['processed'])).' Membership(s) processed. '.count($res['skipped']).' Roles(s) skipped, '.(count($res['skipped'], COUNT_RECURSIVE) - count($res['skipped'])).' Membership(s) skipped');
         } else {

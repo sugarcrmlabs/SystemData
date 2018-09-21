@@ -3,7 +3,7 @@
 // Enrico Simonetti
 // 2017-03-02
 
-namespace Sugarcrm\Sugarcrm\custom\Console\Command\SystemData;
+namespace Sugarcrm\Sugarcrm\custom\systemdata;
 
 class SystemDataAWF extends SystemData {
 

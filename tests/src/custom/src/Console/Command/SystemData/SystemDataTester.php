@@ -7,6 +7,7 @@ namespace Sugarcrm\Sugarcrm\custom\Console\Command\SystemData;
 
 use Sugarcrm\Sugarcrm\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
+use Sugarcrm\Sugarcrm\custom\systemdata\SystemData;
 
 class SystemDataTester extends SystemData {
 

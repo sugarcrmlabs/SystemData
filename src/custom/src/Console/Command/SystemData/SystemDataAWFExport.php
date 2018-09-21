@@ -10,12 +10,18 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataAWF;
+use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataCli;
 
 class SystemDataAWFExport extends Command implements InstanceModeInterface {
 
     // get common code
     protected function data() {
         return new SystemDataAWF();
+    }
+
+    protected function datacli() {
+        return new SystemDataCli();
     }
 
     protected function configure() {
@@ -33,7 +39,7 @@ class SystemDataAWFExport extends Command implements InstanceModeInterface {
 
         $path = $input->getArgument('path');
         $data = $this->data()->getAWF();
-        $file = $this->data()->checkPath($path).'awf.json';
+        $file = $this->datacli()->checkPath($path).'awf.json';
         
         $count = 0;
         if(!empty($data)) {
@@ -42,7 +48,7 @@ class SystemDataAWFExport extends Command implements InstanceModeInterface {
             }
         }
 
-        $this->data()->putData($file, array('awf' => $data));
+        $this->datacli()->putData($file, array('awf' => $data));
         $output->writeln($count.' AWF(s) rules exported into '.$file);
     }
 }

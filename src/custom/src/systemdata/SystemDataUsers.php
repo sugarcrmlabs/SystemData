@@ -3,7 +3,7 @@
 // Enrico Simonetti
 // 2016-12-22
 
-namespace Sugarcrm\Sugarcrm\custom\Console\Command\SystemData;
+namespace Sugarcrm\Sugarcrm\custom\systemdata;
 
 class SystemDataUsers extends SystemData {
 

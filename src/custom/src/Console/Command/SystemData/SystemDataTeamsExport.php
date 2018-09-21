@@ -10,12 +10,18 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataTeams;
+use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataCli;
 
 class SystemDataTeamsExport extends Command implements InstanceModeInterface {
 
     // get common code
     protected function data() {
         return new SystemDataTeams();
+    }
+
+    protected function datacli() {
+        return new SystemDataCli();
     }
 
     protected function configure() {
@@ -33,8 +39,8 @@ class SystemDataTeamsExport extends Command implements InstanceModeInterface {
 
         $path = $input->getArgument('path');
         $data = $this->data()->getTeams();
-        $file = $this->data()->checkPath($path).'teams.json';
-        $this->data()->putData($file, array('teams' => $data));
+        $file = $this->datacli()->checkPath($path).'teams.json';
+        $this->datacli()->putData($file, array('teams' => $data));
         $output->writeln(count($data).' Team(s) exported into '.$file);
     }
 }

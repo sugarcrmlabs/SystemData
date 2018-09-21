@@ -3,7 +3,8 @@
 // Enrico Simonetti
 // 2017-01-12
 
-namespace Sugarcrm\Sugarcrm\custom\Console\Command\SystemData;
+namespace Sugarcrm\Sugarcrm\custom\systemdata;
+
 include('modules/ACLActions/actiondefs.php');
 include('modules/ACLFields/actiondefs.php');
 

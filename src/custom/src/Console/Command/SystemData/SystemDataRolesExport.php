@@ -10,12 +10,18 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataRoles;
+use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataCli;
 
 class SystemDataRolesExport extends Command implements InstanceModeInterface {
 
     // get common code
     protected function data() {
         return new SystemDataRoles();
+    }
+
+    protected function datacli() {
+        return new SystemDataCli();
     }
 
     protected function configure() {
@@ -33,8 +39,8 @@ class SystemDataRolesExport extends Command implements InstanceModeInterface {
 
         $path = $input->getArgument('path');
         $data = $this->data()->getRoles();
-        $file = $this->data()->checkPath($path).'roles.json';
-        $this->data()->putData($file, array('roles' => $data));
+        $file = $this->datacli()->checkPath($path).'roles.json';
+        $this->datacli()->putData($file, array('roles' => $data));
         $output->writeln(count($data).' Role(s) exported into '.$file);
     }
 }
