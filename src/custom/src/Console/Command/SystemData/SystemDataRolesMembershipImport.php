@@ -34,7 +34,7 @@ class SystemDataRolesMembershipImport extends Command implements InstanceModeInt
         $path = $input->getArgument('path');
         if($this->data()->checkJsonFile($path)) {
             $data = $this->data()->getData($path);
-            $res = $this->data()->saveRolesMembership($data);
+            $res = $this->data()->saveRolesMembership($data['users']);
             $output->writeln('Roles Membership imported! '.count($res['processed']).' Role(s) processed, '.(count($res['processed'], COUNT_RECURSIVE) - count($res['processed'])).' Membership(s) processed. '.count($res['skipped']).' Roles(s) skipped, '.(count($res['skipped'], COUNT_RECURSIVE) - count($res['skipped'])).' Membership(s) skipped');
         } else {
             $output->writeln($path.' does not exist, aborting.');

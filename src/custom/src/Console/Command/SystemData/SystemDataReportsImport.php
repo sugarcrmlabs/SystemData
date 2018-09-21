@@ -34,7 +34,7 @@ class SystemDataReportsImport extends Command implements InstanceModeInterface {
         $path = $input->getArgument('path');
         if($this->data()->checkJsonFile($path)) {
             $data = $this->data()->getData($path);
-            $res = $this->data()->saveReportsArray($data);
+            $res = $this->data()->saveReportsArray($data['reports']);
             if(!empty($res['errors'])) {
                 foreach($res['errors'] as $message) {
                     $output->writeln($message);

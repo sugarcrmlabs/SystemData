@@ -34,7 +34,7 @@ class SystemDataTeamsMembershipImport extends Command implements InstanceModeInt
         $path = $input->getArgument('path');
         if($this->data()->checkJsonFile($path)) {
             $data = $this->data()->getData($path);
-            $res = $this->data()->saveTeamsMembership($data);
+            $res = $this->data()->saveTeamsMembership($data['users']);
             $output->writeln('Teams Membership imported! '.count($res['processed']).' Team(s) processed, '.(count($res['processed'], COUNT_RECURSIVE) - count($res['processed'])).' Membership(s) processed. '.count($res['skipped']).' Team(s) skipped, '.(count($res['skipped'], COUNT_RECURSIVE) - count($res['skipped'])).' Membership(s) skipped');
         } else {
             $output->writeln($path.' does not exist, aborting.');

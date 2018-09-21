@@ -34,7 +34,7 @@ class SystemDataRolesExport extends Command implements InstanceModeInterface {
         $path = $input->getArgument('path');
         $data = $this->data()->getRoles();
         $file = $this->data()->checkPath($path).'roles.json';
-        $this->data()->putData($file, $data);
+        $this->data()->putData($file, array('roles' => $data));
         $output->writeln(count($data).' Role(s) exported into '.$file);
     }
 }

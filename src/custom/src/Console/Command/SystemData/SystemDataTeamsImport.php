@@ -34,7 +34,7 @@ class SystemDataTeamsImport extends Command implements InstanceModeInterface {
         $path = $input->getArgument('path');
         if($this->data()->checkJsonFile($path)) {
             $data = $this->data()->getData($path);
-            $res = $this->data()->saveTeamsArray($data);
+            $res = $this->data()->saveTeamsArray($data['teams']);
             $output->writeln('Teams imported! '.count($res['update']).' record(s) updated, '.count($res['create']).' record(s) created.');
         } else {
             $output->writeln($path.' does not exist, aborting.');

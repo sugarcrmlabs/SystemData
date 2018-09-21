@@ -34,7 +34,7 @@ class SystemDataRolesImport extends Command implements InstanceModeInterface {
         $path = $input->getArgument('path');
         if($this->data()->checkJsonFile($path)) {
             $data = $this->data()->getData($path);
-            $res = $this->data()->saveRolesArray($data);
+            $res = $this->data()->saveRolesArray($data['roles']);
             $output->writeln('Roles imported! '.count($res['update']).' record(s) updated, '.count($res['create']).' record(s) created.');
         } else {
             $output->writeln($path.' does not exist, aborting.');
