@@ -4,6 +4,7 @@
 // enricosimonetti.com
 // 2018-09-21
 
+die();
 require_once 'include/SugarSmarty/plugins/function.sugar_csrf_form_token.php';
 
 $exportSections = [
