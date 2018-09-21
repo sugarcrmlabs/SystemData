@@ -122,7 +122,20 @@ class SystemDataUsers extends SystemData {
                         // get team set team membership and users for private teams if this field exists and it is not empty
                         if(!empty($row[$team_src_field])) {
                             $records[$row['id']][$team_dst_field] = $this->getTeamsOrUsersRelevantToTeamset($row[$team_src_field]);
-                            if (empty($records[$row['id']][$team_dst_field]) || empty(array_filter($records[$row['id']][$team_dst_field]))) {
+                            $isEmpty = false;
+                        
+                            if (empty($records[$row['id']][$team_dst_field])) {
+                                $isEmpty = true;
+                            } else {
+                                $isEmpty = true;
+                                foreach ($records[$row['id']][$team_dst_field] as $content) {
+                                    if (!empty($content)) {
+                                        $isEmpty = false;
+                                    }
+                                }
+                            }
+
+                            if ($isEmpty) {
                                 $records[$row['id']][$team_dst_field] = null;
                             }
                             unset($records[$row['id']][$team_src_field]);
