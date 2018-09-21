@@ -7,9 +7,9 @@ namespace Sugarcrm\Sugarcrm\custom\Console\Command\SystemData;
 
 use Sugarcrm\Sugarcrm\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
-use Sugarcrm\Sugarcrm\custom\systemdata\SystemData;
+use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataCli;
 
-class SystemDataTester extends SystemData {
+class SystemDataTester extends SystemDataCli {
 
     private $tables_to_truncate = array(
         'users',
