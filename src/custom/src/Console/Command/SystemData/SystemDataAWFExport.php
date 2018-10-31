@@ -10,45 +10,25 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataAWF;
 use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataCli;
 
-class SystemDataAWFExport extends Command implements InstanceModeInterface {
-
-    // get common code
-    protected function data() {
-        return new SystemDataAWF();
-    }
-
-    protected function datacli() {
+class SystemDataAWFExport extends Command implements InstanceModeInterface
+{
+    protected function data()
+    {
         return new SystemDataCli();
     }
 
-    protected function configure() {
+    protected function configure()
+    {
         $this
             ->setName('systemdata:export:awf')
-            ->setDescription('Export AWF into JSON data file')
-            ->addArgument(
-                'path',
-                InputArgument::REQUIRED,
-                'Destination path for the JSON data file'
-            );
+            ->setDescription('Export AWF into JSON');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
-
-        $path = $input->getArgument('path');
-        $data = $this->data()->getAWF();
-        $file = $this->datacli()->checkPath($path).'awf.json';
-        
-        $count = 0;
-        if(!empty($data)) {
-            foreach($data as $key => $val) {
-                $count += count($data[$key]);
-            }
-        }
-
-        $this->datacli()->putData($file, array('awf' => $data));
-        $output->writeln($count.' AWF(s) rules exported into '.$file);
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $data = $this->data()->getFromObject('awf');
+        $output->writeln($this->data()->formatOutputData($data));
     }
 }

@@ -5,13 +5,19 @@
 
 namespace Sugarcrm\Sugarcrm\custom\systemdata;
 
-class SystemDataReports extends SystemData {
+class SystemDataReports extends SystemData
+{
+    public function getReports()
+    {
+        $this->enforceAdmin();
 
-    public function getReports() {
         return $this->getRowsFromTable('saved_reports', 'name');
     }
 
-    public function saveReportsArray($reports) {
+    public function saveReportsArray($reports)
+    {
+        $this->enforceAdmin();
+
         return $this->saveBeansArray('Reports', $reports, 'name');
     }
 }

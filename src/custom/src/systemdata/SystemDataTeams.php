@@ -5,10 +5,12 @@
 
 namespace Sugarcrm\Sugarcrm\custom\systemdata;
 
-class SystemDataTeams extends SystemData {
+class SystemDataTeams extends SystemData
+{
+    public function getTeams()
+    {
+        $this->enforceAdmin();
 
-    public function getTeams() {
-        global $current_user;
         $db = \DBManagerFactory::getInstance();
 
         // retrieve also deleted, but only non private and non global new Teams
@@ -23,12 +25,12 @@ class SystemDataTeams extends SystemData {
         $list_records = array();
 
         while ($row = $res->fetch()) {
-            if(!empty($row['id']) && !empty($row['name'])) {
-                foreach($row as $field => $value) {
+            if (!empty($row['id']) && !empty($row['name'])) {
+                foreach ($row as $field => $value) {
                     $list_records[$row['id']][$field] = $value;
                 }
             
-                if(!$row['deleted']) {
+                if (!$row['deleted']) {
                     unset($list_records[$row['id']]['deleted']);
                 }
             }
@@ -37,7 +39,10 @@ class SystemDataTeams extends SystemData {
         return $list_records;
     }
 
-    public function saveTeamsArray($teams) {
+    public function saveTeamsArray($teams)
+    {
+        $this->enforceAdmin();
+
         return $this->saveBeansArray('Teams', $teams, 'name');
     }
 }

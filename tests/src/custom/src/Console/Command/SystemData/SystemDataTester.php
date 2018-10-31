@@ -8,9 +8,10 @@ namespace Sugarcrm\Sugarcrm\custom\Console\Command\SystemData;
 use Sugarcrm\Sugarcrm\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataCli;
+use Symfony\Component\Console\Output\BufferedOutput;
 
-class SystemDataTester extends SystemDataCli {
-
+class SystemDataTester extends SystemDataCli
+{
     private $tables_to_truncate = array(
         'users',
         'user_preferences',
@@ -52,12 +53,19 @@ class SystemDataTester extends SystemDataCli {
     );
 
     private $src_directory = './cache/files/';
-    private $dst_directory = './cache/files/export/';
+
+    private $to_verify = array(
+        'teams' => 'teams.json',
+        'roles' => 'roles.json',
+        'users' => 'users.json',
+        'reports' =>'reports.json',
+        'awf' =>'awf.json',
+    );
 
     public function truncateAllTables()
     {
         $db = \DBManagerFactory::getInstance();
-        foreach($this->tables_to_truncate as $table) {
+        foreach ($this->tables_to_truncate as $table) {
             $db->query($db->truncateTableSQL($db->quote($table)));
         }
         // need to delete all teams and team membership that are not global
@@ -106,37 +114,44 @@ class SystemDataTester extends SystemDataCli {
 
     public function verifyStep($step, $input, $output)
     {
+        $result = array();
+        $outputVar = new BufferedOutput();
         $command = new SystemDataTeamsExport();
-        $res = $command->run(new ArrayInput(array('path' => $this->dst_directory.'step'.(int)$step.'/')), $output);
-        $command = new SystemDataRolesExport();
-        $res = $command->run(new ArrayInput(array('path' => $this->dst_directory.'step'.(int)$step.'/')), $output);
-        $command = new SystemDataUsersExport();
-        $res = $command->run(new ArrayInput(array('path' => $this->dst_directory.'step'.(int)$step.'/')), $output);
-        $command = new SystemDataReportsExport();
-        $res = $command->run(new ArrayInput(array('path' => $this->dst_directory.'step'.(int)$step.'/')), $output);
-        $command = new SystemDataAWFExport();
-        $res = $command->run(new ArrayInput(array('path' => $this->dst_directory.'step'.(int)$step.'/')), $output);
+        $res = $command->run(new ArrayInput(array()), $outputVar);
+        $result['teams'] = $this->jsonDecode($outputVar->fetch());
 
-        return !$this->isDifferent($step);
+        $outputVar = new BufferedOutput();
+        $command = new SystemDataRolesExport();
+        $res = $command->run(new ArrayInput(array()), $outputVar);
+        $result['roles'] = $this->jsonDecode($outputVar->fetch());
+
+        $outputVar = new BufferedOutput();
+        $command = new SystemDataUsersExport();
+        $res = $command->run(new ArrayInput(array()), $outputVar);
+        $result['users'] = $this->jsonDecode($outputVar->fetch());
+
+        $outputVar = new BufferedOutput();
+        $command = new SystemDataReportsExport();
+        $res = $command->run(new ArrayInput(array()), $outputVar);
+        $result['reports'] = $this->jsonDecode($outputVar->fetch());
+
+        $outputVar = new BufferedOutput();
+        $command = new SystemDataAWFExport();
+        $res = $command->run(new ArrayInput(array()), $outputVar);
+        $result['awf'] = $this->jsonDecode($outputVar->fetch());
+
+        return !$this->isDifferent($step, $result);
     }
 
-    public function isDifferent($step)
+    public function isDifferent($step, $content)
     {
-        $to_verify = array(
-            'teams.json',
-            'roles.json',
-            'users.json',
-            'reports.json',
-            'awf.json',
-        );
-
         $return = false;
 
-        foreach($to_verify as $file) {
+        foreach ($this->to_verify as $section => $file) {
             $src = $this->getData($this->src_directory.'step'.(int)$step.'/'.$file);
-            $export = $this->getData($this->dst_directory.'step'.(int)$step.'/'.$file);
+            $export = $content[$section];
 
-            if($file == 'users.json') {
+            if ($file == 'users.json') {
                 // remove some stuff that would make the records look different even if they are not
                 $src = $this->removeUnwatendUsersElements($src);
                 $export = $this->removeUnwatendUsersElements($export);
@@ -144,10 +159,9 @@ class SystemDataTester extends SystemDataCli {
 
             $diff1 = deepArrayDiff($src, $export, false);
             $diff2 = deepArrayDiff($export, $src, false);
-            if(!empty($diff1) || !empty($diff2)) {
-                echo PHP_EOL . 'There was a problem with the following files: ' .
-                    $this->src_directory.'step'.(int)$step.'/'.$file . ' and: ' .
-                    $this->dst_directory.'step'.(int)$step.'/'.$file . PHP_EOL;
+            if (!empty($diff1) || !empty($diff2)) {
+                echo PHP_EOL . 'There was a problem with the following file: ' .
+                    $this->src_directory.'step'.(int)$step.'/'.$file . ' and the system content' . PHP_EOL;
                 
                 print_r($diff1);
                 print_r($diff2);
@@ -161,8 +175,8 @@ class SystemDataTester extends SystemDataCli {
 
     public function removeUnwatendUsersElements($data)
     {
-        foreach($data['users'] as $userkey => $user) {
-            if(!empty($user['fields'])) {
+        foreach ($data['users'] as $userkey => $user) {
+            if (!empty($user['fields'])) {
 
                 // unset fields that might be different and expected to be
                 unset($data['users'][$userkey]['fields']['pwd_last_changed']);
@@ -176,25 +190,25 @@ class SystemDataTester extends SystemDataCli {
                 unset($data['users'][$userkey]['fields']['acl_role_set_id']);
 
                 // unset all empty fields as they might look like a difference
-                foreach($user['fields'] as $fieldname => $fieldvalue) {
+                foreach ($user['fields'] as $fieldname => $fieldvalue) {
                     // mostly for team data contents that are empty
-                    if(is_array($fieldvalue)) {
-                        foreach($fieldvalue as $teamfieldkey => $teamfieldvalue) {
-                            if(empty($teamfieldvalue)) {
+                    if (is_array($fieldvalue)) {
+                        foreach ($fieldvalue as $teamfieldkey => $teamfieldvalue) {
+                            if (empty($teamfieldvalue)) {
                                 unset($data['users'][$userkey]['fields'][$fieldname][$teamfieldkey]);
                             }
                         } 
                     }
 
                     // remove empty fields
-                    if(empty($data['users'][$userkey]['fields'][$fieldname])) {
+                    if (empty($data['users'][$userkey]['fields'][$fieldname])) {
                         unset($data['users'][$userkey]['fields'][$fieldname]);
                     }
                 }
 
                 // unset fields from the email addresses that will definitely be different
-                if(!empty($user['fields']['email'])) {
-                    foreach($user['fields']['email'] as $emailkey => $email) {
+                if (!empty($user['fields']['email'])) {
+                    foreach ($user['fields']['email'] as $emailkey => $email) {
                         unset($data['users'][$userkey]['fields']['email'][$emailkey]['id']);
                         unset($data['users'][$userkey]['fields']['email'][$emailkey]['email_address_id']);
                         unset($data['users'][$userkey]['fields']['email'][$emailkey]['date_modified']);
@@ -203,9 +217,9 @@ class SystemDataTester extends SystemDataCli {
                 }
             }
 
-            if(!empty($user['preferences'])) {
-                foreach($user['preferences'] as $prefkey => $preference) {
-                    if($preference['category'] == 'global') {
+            if (!empty($user['preferences'])) {
+                foreach ($user['preferences'] as $prefkey => $preference) {
+                    if ($preference['category'] == 'global') {
                         // ignore global as they might differ due to different calendar keys
                         unset($data['users'][$userkey]['preferences'][$prefkey]);
                     }

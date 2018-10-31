@@ -2,3 +2,7 @@
 composer.lock
 /pkg/
 /releases/
+/tests/vendor/
+/tests/composer.lock
+/tests/pkg/
+/tests/releases/

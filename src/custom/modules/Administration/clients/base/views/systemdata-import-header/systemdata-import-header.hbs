@@ -1,0 +1,10 @@
+<div class="headerpane">
+    <h1>
+        <span class="record-cell">{{str 'LBL_SYSTEMDATA_IMPORT_TITLE' 'Administration'}}</span>
+        <div class="btn-toolbar pull-right dropdown">
+            {{#each meta.buttons}}
+                {{field ../this model=../this.model template="detail"}}
+            {{/each}}
+        </div>
+    </h1>
+</div>

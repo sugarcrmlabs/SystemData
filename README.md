@@ -1,12 +1,14 @@
-# Sugar Labs CLI System Data
+# Sugar Labs System Data
 
-CLI System Data is a command line tool built to simplify some of the data transferring tasks between environments of the same system.<br />
-The System Data tool helps you export and import some of the data available in Sugar using JSON data files.
+System Data is a tool built to simplify some of the data transferring tasks between environments of the same system.<br />
+The System Data tool helps you export and import some of the data available in Sugar using JSON data files.<br />
+
+THIS IS AN EXPERIMENTAL TOOL, USE AT YOUR OWN RISK! PLEASE DO CONTRIBUTE TO BUGFIXES!<br /><br />
 
 ## Requirements
-It requires Sugar version 7.9 or above, with the new CLI framework and with prepared statements. The latest release has been built on 7.9.1.0<br />
-It requires to be able to run the Sugar CLI framework.<br />
-It requires that the source and destinations systems are exactly the same in terms of code and customizations (including if changes are completed via Studio/Module Builder).
+It requires Sugar version 8.0 or above.<br />
+It requires that the source and destinations systems are exactly the same in terms of code and customizations (including if changes are completed via Studio/Module Builder).<br />
+It requires the user to be an Admin<br />
 
 ## Features
 
@@ -19,6 +21,12 @@ Can export and import from one instance to another:
 - Reports
 - AWF (Advanced Workflows)
 
+It can be used in three different ways:
+- Administration UI interfaces for exporting and importing
+- A set of API calls 
+- A set of CLI commands
+
+It respects Sugar Package Scanner.<br />
 It re-stores deleted records if necessary/found.<br />
 It deletes records if flagged accordingly on the JSON file.<br />
 It updates and creates records aligning them to the JSON files provided as input to the script.<br /><br />
@@ -66,39 +74,17 @@ The order should be:
 This tool is only compatible with its own export files.
 
 ## Installation
-* Clone the repository
-* Run: composer install to retrieve the sugar-module-packager dependency
-* Generate the installable .zip Sugar module with: ./vendor/bin/package <version number>
-* Load the package in your target instance using Module Loader
-* Make sure the file located on `<sugar directory>/bin/sugarcrm` is executable
+* Clone the repository and enter the cloned directory
+* Retrieve the Sugar Module Packager dependency by running: `composer install`
+* Generate the installable .zip Sugar module with: `./vendor/bin/package 0.5`
+* Install the generated module into the instance
+* Execute a repair and a hard browser refresh as an Administrator to see the UI
+* If on premise, and want to use the CLI, please make sure that `<sugar directory>/bin/sugarcrm` is executable
 
-## Use
-
-### Export
-`sudo -u www-data ./bin/sugarcrm systemdata:export:teams /tmp`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:export:roles /tmp`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:export:users /tmp`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:export:reports /tmp`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:export:awf /tmp`<br />
-
-
-### Import
-`sudo -u www-data ./bin/sugarcrm systemdata:import:teams /tmp/teams.json`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:import:roles /tmp/roles.json`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:import:users /tmp/users.json`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:import:teamsmembership /tmp/users.json`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:import:rolesmembership /tmp/users.json`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:import:reports /tmp/reports.json`<br />
-`sudo -u www-data ./bin/sugarcrm systemdata:import:awf /tmp/awf.json`<br />
-
-Note: You would need to use `sudo -u www-data` to execute the CLI framework as your Apache user (if the Apache user is `www-data`).<br />
-In Debian the Apache default user is `www-data`, in RedHat/CentOS is `httpd`. Please double check and replace based on your needs.
-
-
-IMPORTANT: Make sure to keep the users.json file safe. User's passwords (even if hashed) are available on that file.
+IMPORTANT: Make sure to keep the users's export file safe. User's passwords (even if hashed) are available on that file.
 
 ## Testing
-TESTING IS DISRUPTIVE AND WILL WIPE YOUR DATABASE.
+EXECUTING THE TESTING CLI IS DISRUPTIVE AND IT WILL WIPE YOUR DATABASE.
 Do not test the script with its own tools on any production like environment. To run the test command you actually have to type as agreement the argument `i-agree-to-completely-delete-my-database`
 
 ## Contributing
