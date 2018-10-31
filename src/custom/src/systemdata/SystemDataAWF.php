@@ -3,10 +3,10 @@
 // Enrico Simonetti
 // 2017-03-02
 
-namespace Sugarcrm\Sugarcrm\custom\Console\Command\SystemData;
+namespace Sugarcrm\Sugarcrm\custom\systemdata;
 
-class SystemDataAWF extends SystemData {
-
+class SystemDataAWF extends SystemData
+{
     private $modules_not_to_sync = array(
         'pmse_inbox' => 'pmse_Inbox', // pmse_Inbox
         'pmse_bpm_flow' => 'pmse_BpmFlow', // pmse_Project/pmse_BpmFlow
@@ -90,34 +90,39 @@ class SystemDataAWF extends SystemData {
         ),
     );
 
-    public function verifyKnownTableList() {
+    public function verifyKnownTableList()
+    {
+        $this->enforceAdmin();
+
         // do we know all the tables? or is there a discrepancy and should we stop?
         $db = \DBManagerFactory::getInstance();
         $current_tables = $db->getTablesArray();
-        foreach($current_tables as $key => $table) {
-            if(substr($table, 0, strlen('pmse_')) != 'pmse_') {
+        foreach ($current_tables as $key => $table) {
+            if (substr($table, 0, strlen('pmse_')) != 'pmse_') {
                 // remove all tables that are not from awf    
                 unset($current_tables[$key]);
             } else {
                 // verify if we know all of them by removing all the known ones
-                if(!empty($this->modules_not_to_sync[$table]) || !empty($this->modules_to_sync[$table])) {
+                if (!empty($this->modules_not_to_sync[$table]) || !empty($this->modules_to_sync[$table])) {
                     unset($current_tables[$key]);
                 }
             }
         }
-        if(empty($current_tables)) {
+        if (empty($current_tables)) {
             return true;
         } else {
             return false;
         }
     }
 
-    public function getAWF() {
+    public function getAWF()
+    {
+        $this->enforceAdmin();
 
         $list_records = array();
 
         // check if we know the exact table format
-        if($this->verifyKnownTableList()) {
+        if ($this->verifyKnownTableList()) {
 
             // 3 main tables
             $list_records['pmse_project'] = $this->getRowsFromTable('pmse_project', 'name');
@@ -129,9 +134,9 @@ class SystemDataAWF extends SystemData {
             $list_records['pmse_bpm_activity_definition'] = $this->getRowsFromTable('pmse_bpm_activity_definition', 'name');
 
             // remaining tables
-            foreach($this->modules_to_sync as $table => $module) {
+            foreach ($this->modules_to_sync as $table => $module) {
                 // if table has not already been saved
-                if(!in_array($table, $this->manual_tables)) {
+                if (!in_array($table, $this->manual_tables)) {
                     $list_records[$table] = $this->getRowsFromTable($table, 'name');
                 }
             }
@@ -140,12 +145,14 @@ class SystemDataAWF extends SystemData {
         return $list_records;
     }
 
-    public function saveAWFArrays($awfs) {
+    public function saveAWFArrays($awfs)
+    {
+        $this->enforceAdmin();
 
         $list_records = array();
 
         // check if we know the exact table format
-        if(!empty($awfs) && $this->verifyKnownTableList()) {
+        if (!empty($awfs) && $this->verifyKnownTableList()) {
 
             // do not use this, it is only for testing purposes
             //$this->truncateAllProcessTables();
@@ -163,9 +170,9 @@ class SystemDataAWF extends SystemData {
             $list_records['pmse_bpm_activity_definition'] = $this->saveBeansArray($this->modules_to_sync['pmse_bpm_activity_definition'], $awfs['pmse_bpm_activity_definition'], 'name');
 
             // remaining tables
-            foreach($this->modules_to_sync as $table => $module) {
+            foreach ($this->modules_to_sync as $table => $module) {
                 // if table has not already been saved
-                if(!in_array($table, $this->manual_tables)) {
+                if (!in_array($table, $this->manual_tables)) {
                     $list_records[$table] = $this->saveBeansArray($module, $awfs[$table], 'name');
                 }
             }
@@ -175,33 +182,42 @@ class SystemDataAWF extends SystemData {
     }
 
     // do not use this, it is only for testing purposes!
-    public function truncateAllProcessTables() {
+    public function truncateAllProcessTables()
+    {
+        $this->enforceAdmin();
+
         $db = \DBManagerFactory::getInstance();
-        foreach($this->modules_to_sync as $table => $module) {
+        foreach ($this->modules_to_sync as $table => $module) {
             $db->query($db->truncateTableSQL($db->quote($table)));
         }
-        foreach($this->modules_not_to_sync as $table => $module) {
+        foreach ($this->modules_not_to_sync as $table => $module) {
             $db->query($db->truncateTableSQL($db->quote($table)));
         }
     }
 
-    public function pruneAWFArrays($awfs) {
-        if(!empty($awfs) && $this->verifyKnownTableList()) {
-            foreach($this->pruning_rules as $table => $aaa) {
-                if(!empty($awfs[$table])) {
+    public function pruneAWFArrays($awfs)
+    {
+        $this->enforceAdmin();
+
+        if (!empty($awfs) && $this->verifyKnownTableList()) {
+            foreach ($this->pruning_rules as $table => $aaa) {
+                if (!empty($awfs[$table])) {
                     $this->pruneAWFArray($awfs[$table], $table);
                 }
             }
         }
     }
 
-    public function pruneAWFArray($records, $table) {
-        if(!empty($records) && !empty($table) && !empty($this->pruning_rules[$table])) {
-            foreach($records as $record) {
-                if(!empty($record)) {
-                    if(!empty($record[$this->pruning_rules[$table]['source']])) {
-                        if(!empty($this->pruning_rules[$table]['tables'])) {
-                            foreach($this->pruning_rules[$table]['tables'] as $table_to_prune) {
+    public function pruneAWFArray($records, $table)
+    {
+        $this->enforceAdmin();
+
+        if (!empty($records) && !empty($table) && !empty($this->pruning_rules[$table])) {
+            foreach ($records as $record) {
+                if (!empty($record)) {
+                    if (!empty($record[$this->pruning_rules[$table]['source']])) {
+                        if (!empty($this->pruning_rules[$table]['tables'])) {
+                            foreach ($this->pruning_rules[$table]['tables'] as $table_to_prune) {
                                 $this->pruneAWFSingleProcess($table_to_prune, $this->pruning_rules[$table]['destination'], $record[$this->pruning_rules[$table]['source']]);
                             }
                         }     
@@ -211,38 +227,41 @@ class SystemDataAWF extends SystemData {
         }
     }
 
-    public function pruneAWFSingleProcess($table, $field, $value) {
+    public function pruneAWFSingleProcess($table, $field, $value)
+    {
+        $this->enforceAdmin();
+
         $db = \DBManagerFactory::getInstance();
-        if(!empty($table) && !empty($field) && !empty($value)) {
+        if (!empty($table) && !empty($field) && !empty($value)) {
             $query = "UPDATE ".$db->quote($table)." SET deleted = '1' WHERE ".$db->quote($field)." = ?";
             $db->getConnection()->executeQuery($query, array($value));
         }
     }
 
-    public function getSaveTotals($list_records) {
-
+    public function getSaveTotals($list_records)
+    {
         $res = array();
         $res['update'] = array();
         $res['create'] = array(); 
         $res['errors'] = array(); 
 
-        if(!empty($list_records)) {
-            foreach($list_records as $key => $record) {
+        if (!empty($list_records)) {
+            foreach ($list_records as $key => $record) {
 
-                if(!empty($record['errors'])) {
-                    foreach($record['errors'] as $error) {
+                if (!empty($record['errors'])) {
+                    foreach ($record['errors'] as $error) {
                         $res['errors'][] = $error;
                     }
                 }
 
-                if(!empty($record['update'])) {
-                    foreach($record['update'] as $update) {
+                if (!empty($record['update'])) {
+                    foreach ($record['update'] as $update) {
                         $res['update'][] = $update;
                     }
                 }
 
-                if(!empty($record['create'])) {
-                    foreach($record['create'] as $create) {
+                if (!empty($record['create'])) {
+                    foreach ($record['create'] as $create) {
                         $res['create'][] = $create;
                     }
                 }

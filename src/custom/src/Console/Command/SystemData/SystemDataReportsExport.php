@@ -10,31 +10,25 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Sugarcrm\Sugarcrm\custom\systemdata\SystemDataCli;
 
-class SystemDataReportsExport extends Command implements InstanceModeInterface {
-
-    // get common code
-    protected function data() {
-        return new SystemDataReports();
+class SystemDataReportsExport extends Command implements InstanceModeInterface
+{
+    protected function data()
+    {
+        return new SystemDataCli();
     }
 
-    protected function configure() {
+    protected function configure()
+    {
         $this
             ->setName('systemdata:export:reports')
-            ->setDescription('Export Reports into JSON data file')
-            ->addArgument(
-                'path',
-                InputArgument::REQUIRED,
-                'Destination path for the JSON data file'
-            );
+            ->setDescription('Export Reports into JSON');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
-
-        $path = $input->getArgument('path');
-        $data = $this->data()->getReports();
-        $file = $this->data()->checkPath($path).'reports.json';
-        $this->data()->putData($file, array('reports' => $data));
-        $output->writeln(count($data).' Report(s) exported into '.$file);
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $data = $this->data()->getFromObject('reports');
+        $output->writeln($this->data()->formatOutputData($data));
     }
 }

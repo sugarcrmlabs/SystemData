@@ -12,14 +12,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\NullOutput;
 
-class SystemDataTest extends Command implements InstanceModeInterface {
-
-    // get common code
-    protected function tester() {
+class SystemDataTest extends Command implements InstanceModeInterface
+{
+    protected function tester()
+    {
         return new SystemDataTester();
     }
 
-    protected function configure() {
+    protected function configure()
+    {
         $this
             ->setName('systemdata:test')
             ->setDescription('Test System Data')
@@ -30,16 +31,15 @@ class SystemDataTest extends Command implements InstanceModeInterface {
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
-
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $disruptive = $input->getArgument('disruptive');
-        if($disruptive != 'i-agree-to-completely-delete-my-database') {
+        if ($disruptive != 'i-agree-to-completely-delete-my-database') {
             $output->writeln('This command will wipe out the content of your database. Please make sure you agree, by adding `i-agree-to-completely-delete-my-database` after the command');
             return;
         }
 
         $nulloutput = new NullOutput();
-        //$nulloutput = $output;
 
         // clear database
         $this->tester()->truncateAllTables();

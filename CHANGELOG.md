@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.5]
+- Added Administration UI and APIs
+- Added enforcement of Administrator users only
+- Compatible with Package Scanner enabled options
+- Separated CLI to potentially be standalone
+
 ## [v0.4]
 - Added module packager functionality
 - Added support for 8.0.x with the changes in dashboards

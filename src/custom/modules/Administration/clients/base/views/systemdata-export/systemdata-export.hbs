@@ -1,0 +1,35 @@
+<div class="record" id="{{name}}">
+    {{#if sections}}
+        {{#each sections}}
+        <div class="row-fluid panel_body">
+            <div class="span12 record-cell">
+                <input type="checkbox" name="section[]" value="{{@key}}" checked="true" /> {{str this module}} 
+            </div>
+        </div>
+        {{/each}}
+    {{/if}}
+</div>
+<div class="record" id="{{name}}_output">
+    {{#if exportData}}
+        <div class="row-fluid panel_body">
+            <div class="span12 record-cell">
+                {{str "LBL_SYSTEMDATA_EXPORT_OUTPUT_1" module}}
+            </div>
+        </div>
+        <div class="row-fluid panel_body">
+            <div class="span12 record-cell">
+                {{str "LBL_SYSTEMDATA_EXPORT_OUTPUT_2" module}}
+            </div>
+        </div>
+        <div class="row-fluid panel_body">
+            <div class="span12 record-cell">
+                &nbsp;
+            </div>
+        </div>
+        <div class="row-fluid panel_body">
+            <div class="span12 record-cell">
+                <textarea style="height:500px;">{{exportData}}</textarea>
+            </div>
+        </div>
+    {{/if}}
+</div>
