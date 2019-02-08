@@ -76,7 +76,7 @@ This tool is only compatible with its own export files.
 ## Installation
 * Clone the repository and enter the cloned directory
 * Retrieve the Sugar Module Packager dependency by running: `composer install`
-* Generate the installable .zip Sugar module with: `./vendor/bin/package 0.5`
+* Generate the installable .zip Sugar module with: `./vendor/bin/package 0.6`
 * Install the generated module into the instance
 * Execute a repair and a hard browser refresh as an Administrator to see the UI
 * If on premise, and want to use the CLI, please make sure that `<sugar directory>/bin/sugarcrm` is executable
