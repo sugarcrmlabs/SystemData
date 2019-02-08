@@ -50,6 +50,7 @@
             },
             error: function() {
                 self.context.trigger('systemdata:response');
+                app.error.handleHttpError(error);
             },
             complete: function() {
                 self.context.trigger('systemdata:response');
