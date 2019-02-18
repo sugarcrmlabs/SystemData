@@ -97,11 +97,13 @@ class SystemDataAWF extends SystemData
         // do we know all the tables? or is there a discrepancy and should we stop?
         $db = \DBManagerFactory::getInstance();
         $current_tables = $db->getTablesArray();
+        $hasAWF = false;
         foreach ($current_tables as $key => $table) {
             if (substr($table, 0, strlen('pmse_')) != 'pmse_') {
                 // remove all tables that are not from awf    
                 unset($current_tables[$key]);
             } else {
+                $hasAWF = true;
                 // verify if we know all of them by removing all the known ones
                 if (!empty($this->modules_not_to_sync[$table]) || !empty($this->modules_to_sync[$table])) {
                     unset($current_tables[$key]);
@@ -109,7 +111,7 @@ class SystemDataAWF extends SystemData
             }
         }
         if (empty($current_tables)) {
-            return true;
+            return $hasAWF;
         } else {
             return false;
         }
