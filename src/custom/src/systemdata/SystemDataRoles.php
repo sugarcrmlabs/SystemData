@@ -16,25 +16,25 @@ class SystemDataRoles extends SystemData
         'ACL_ALLOW_DEV',
         'ACL_ALLOW_ALL',
         'ACL_ALLOW_ENABLED',
-        'ACL_ALLOW_SELECTED_TEAMS',
         'ACL_ALLOW_OWNER',
         'ACL_ALLOW_NORMAL',
         'ACL_ALLOW_DEFAULT',
         'ACL_ALLOW_DISABLED',
         'ACL_ALLOW_NONE',
+        'ACL_ALLOW_SELECTED_TEAMS',
     );
     
     public $acl_fields_keywords = array(
         'ACL_READ_ONLY',
         'ACL_READ_WRITE',
-        'ACL_READ_SELECTED_TEAMS_WRITE',
-        'ACL_SELECTED_TEAMS_READ_OWNER_WRITE',
-        'ACL_SELECTED_TEAMS_READ_WRITE',
         'ACL_OWNER_READ_WRITE',
         'ACL_READ_OWNER_WRITE',
         'ACL_ALLOW_NONE',
         'ACL_ALLOW_DEFAULT',
         'ACL_FIELD_DEFAULT',
+        'ACL_READ_SELECTED_TEAMS_WRITE',
+        'ACL_SELECTED_TEAMS_READ_OWNER_WRITE',
+        'ACL_SELECTED_TEAMS_READ_WRITE',
     );
 
     public $acl_module_default = 'ACL_ALLOW_DEFAULT';    
