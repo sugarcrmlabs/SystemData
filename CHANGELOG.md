@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.7]
+- Added pmse_email_message to the list of known AWF tables
+
+## [v0.6]
+- Added error handling
+
 ## [v0.5]
 - Added Administration UI and APIs
 - Added enforcement of Administrator users only
