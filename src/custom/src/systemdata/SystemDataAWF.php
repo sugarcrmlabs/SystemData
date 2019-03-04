@@ -44,6 +44,7 @@ class SystemDataAWF extends SystemData
         'pmse_bpmn_gateway' => 'pmse_BpmnGateway', // pmse_Project/pmse_BpmnGateway
         'pmse_bpmn_artifact' => 'pmse_BpmnArtifact', // pmse_Project/pmse_BpmnArtifact
         'pmse_emails_templates' => 'pmse_Emails_Templates', // pmse_Emails_Templates 
+        'pmse_email_message' => 'pmse_EmailMessage', // pmse_Emails_Templates/pmse_EmailMessage
     );
 
     private $manual_tables = array(
