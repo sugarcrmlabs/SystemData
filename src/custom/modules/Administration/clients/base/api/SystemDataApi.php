@@ -84,9 +84,11 @@ class SystemDataApi extends AdministrationApi
 
             $content = $sd->jsonDecode($args['data']);
             if (!empty($content)) {
-                foreach ($args['modules'] as $section) {
-                    if (in_array($section, array_keys($allSections))) {
-                        $output[] = $sd->saveToObject($section, $content);
+                // the items should be processed in the right order, if we have them in the data
+                foreach ($allSections as $sectionKey => $sectionLabel) {
+                    // only import if the section is one of the selected checkboxes
+                    if (in_array($sectionKey, $args['modules'])) {
+                        $output[] = $sd->saveToObject($sectionKey, $content);
                     }
                 }
             } else {

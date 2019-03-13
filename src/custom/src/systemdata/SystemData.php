@@ -11,8 +11,8 @@ class SystemData
         'teams' => 'LBL_SYSTEMDATA_TEAMS',
         'roles' => 'LBL_SYSTEMDATA_ROLES',
         'users' => 'LBL_SYSTEMDATA_USERS',
-        'awf' => 'LBL_SYSTEMDATA_AWF',
         'reports' => 'LBL_SYSTEMDATA_REPORTS',
+        'awf' => 'LBL_SYSTEMDATA_AWF',
     ];
 
     protected $additionalImportSections = [
@@ -24,26 +24,33 @@ class SystemData
         'teams' => 'LBL_SYSTEMDATA_MSG_TEAMS',
         'roles' => 'LBL_SYSTEMDATA_MSG_ROLES',
         'users' => 'LBL_SYSTEMDATA_MSG_USERS',
-        'awf' => 'LBL_SYSTEMDATA_MSG_AWF',
-        'reports' => 'LBL_SYSTEMDATA_MSG_REPORTS',
-        'rolesmembership' => 'LBL_SYSTEMDATA_MSG_ROLES_MEMBERSHIP',
         'teamsmembership' => 'LBL_SYSTEMDATA_MSG_TEAMS_MEMBERSHIP',
+        'rolesmembership' => 'LBL_SYSTEMDATA_MSG_ROLES_MEMBERSHIP',
+        'reports' => 'LBL_SYSTEMDATA_MSG_REPORTS',
+        'awf' => 'LBL_SYSTEMDATA_MSG_AWF',
     ];
 
     protected $sectionToDataMapping = [
         'teams' => 'teams',
         'roles' => 'roles',
         'users' => 'users',
-        'awf' => 'awf',
-        'reports' => 'reports',
-        'rolesmembership' => 'users',
         'teamsmembership' => 'users',
+        'rolesmembership' => 'users',
+        'reports' => 'reports',
+        'awf' => 'awf',
     ];
 
     public function getUISectionLabels($section = 'import')
     {
         if ($section == 'import') {
-            return array_merge($this->exportSections, $this->additionalImportSections);
+            $allLabels = array_merge($this->exportSections, $this->additionalImportSections);
+            $labelsOutput = [];
+            foreach ($this->sectionToDataMapping as $key => $val) {
+                if (!empty($allLabels[$key])) {
+                    $labelsOutput[$key] = $allLabels[$key];
+                }
+            }
+            return $labelsOutput;
         } else {
             return $this->exportSections;
         }    
