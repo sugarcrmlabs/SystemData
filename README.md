@@ -47,8 +47,7 @@ It exports both module level and field level. It does "smart update" of all fiel
 It exports data from the database, converting actions/permissions into human readable format (eg: ACL_ALLOW_NORMAL, ACL_ALLOW_ENABLED, ACL_ALLOW_DEFAULT, ACL_ALLOW_OWNER and so on). This can give the flexibility of versioning Roles files and it is possible and really simple to update manually few elements within the JSON structure, to update the matching Roles accordingly.
 
 #### Users
-It does "smart" insert of users with reporting structure, keeping all users that report to someone at last. It assumes all users it depends on, are either part of the JSON file or inside the database already.<br />
-It includes Teams membership and Roles membership ONLY for explicit assignment. It does not remove users from other explicit/implicit Teams membership or Role membeship.
+It includes Teams membership and Roles membership ONLY for explicit assignment. It includes reporting structure as well. It does not remove users from other explicit/implicit Teams membership or Role membeship.
 
 #### Reports
 It exports Reports, including all Teams and Team Sets used on the records. Now from 7.8 onwards there is an additional Team Set field for Team based ACL: acl_team_set_id and the script is already compatible with it.<br />
@@ -76,7 +75,7 @@ This tool is only compatible with its own export files.
 ## Installation
 * Clone the repository and enter the cloned directory
 * Retrieve the Sugar Module Packager dependency by running: `composer install`
-* Generate the installable .zip Sugar module with: `./vendor/bin/package 0.7`
+* Generate the installable .zip Sugar module with: `./vendor/bin/package 0.8`
 * Install the generated module into the instance
 * Execute a repair and a hard browser refresh as an Administrator to see the UI
 * If on premise, and want to use the CLI, please make sure that `<sugar directory>/bin/sugarcrm` is executable

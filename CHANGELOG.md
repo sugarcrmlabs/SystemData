@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.8]
+- Enforced order of import from the UI to: teams, roles, users, teams memberships, roles memberships, reports, awfs
+- Changed labels UI order to reflect the import order
+
 ## [v0.7]
 - Added pmse_email_message to the list of known AWF tables
 
