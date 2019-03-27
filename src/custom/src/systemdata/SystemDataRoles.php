@@ -280,7 +280,7 @@ class SystemDataRoles extends SystemData
         $this->enforceAdmin();
 
         if (!empty($perm_name)) {
-            if (!empty($this->acl_modules_keywords[$perm_name])) {
+            if (!empty($this->acl_modules_keywords[$perm_name]) && defined($perm_name)) {
                 return constant($perm_name);     
             } else {
                 // bad, we do not know this permission, this script might be outdated! we could return the default but we don't want to as we are unaware of this permission
@@ -295,7 +295,7 @@ class SystemDataRoles extends SystemData
 
     public function getFieldPermValue($perm_name) {
         if (!empty($perm_name)) {
-            if (!empty($this->acl_fields_keywords[$perm_name])) {
+            if (!empty($this->acl_fields_keywords[$perm_name]) && defined($perm_name)) {
                 return constant($perm_name);     
             } else {
                 // bad, we do not know this permission, this script might be outdated! we could return the default but we don't want to as we are unaware of this permission
@@ -312,8 +312,10 @@ class SystemDataRoles extends SystemData
     {
         if (!empty($perm_value)) {
             foreach ($this->acl_modules_keywords as $name) {
-                if (constant($name) == $perm_value) {
-                    return $name;
+                if (defined($name)) {
+                    if (constant($name) == $perm_value) {
+                        return $name;
+                    }
                 }
             }
         }
@@ -325,8 +327,10 @@ class SystemDataRoles extends SystemData
     {
         if (!empty($perm_value)) {
             foreach ($this->acl_fields_keywords as $name) {
-                if (constant($name) == $perm_value) {
-                    return $name;
+                if (defined($name)) {
+                    if (constant($name) == $perm_value) {
+                        return $name;
+                    }
                 }
             }
         }

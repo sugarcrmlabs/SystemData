@@ -96,8 +96,7 @@ class SystemDataAWF extends SystemData
         $this->enforceAdmin();
 
         // do we know all the tables? or is there a discrepancy and should we stop?
-        $db = \DBManagerFactory::getInstance();
-        $current_tables = $db->getTablesArray();
+        $current_tables = $this->getDBTables();
         foreach ($current_tables as $key => $table) {
             if (substr($table, 0, strlen('pmse_')) != 'pmse_') {
                 // remove all tables that are not from awf    
@@ -233,7 +232,7 @@ class SystemDataAWF extends SystemData
         $this->enforceAdmin();
 
         $db = \DBManagerFactory::getInstance();
-        if (!empty($table) && !empty($field) && !empty($value)) {
+        if (!empty($table) && !empty($field) && !empty($value) && in_array($table, $this->getDBTables())) {
             $query = "UPDATE ".$db->quote($table)." SET deleted = '1' WHERE ".$db->quote($field)." = ?";
             $db->getConnection()->executeQuery($query, array($value));
         }
