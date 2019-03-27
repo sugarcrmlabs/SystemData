@@ -2,7 +2,8 @@
 
 $app_strings['LBL_SYSTEMDATA_TITLE'] = 'Export/Import System Data';
 
-$app_strings['LBL_SYSTEMDATA_ERROR_TEAMSETS'] = 'Could not save record for %s with id %s due to missing Teams, please check that all Users and Teams have been imported correctly';
+$app_strings['LBL_SYSTEMDATA_ERROR_TEAMSETS'] = 'It was not possible to save the record for %s with id %s due to missing Teams, please check that all Users and Teams have been imported correctly';
+$app_strings['LBL_SYSTEMDATA_ERROR_BEAN'] = 'It was not possible to save records for module %s, as the module is missing from the current system. The imported export files might be incompatible with the current system';
 
 $app_strings['LBL_SYSTEMDATA_EXPORT'] = 'Export';
 $app_strings['LBL_SYSTEMDATA_IMPORT'] = 'Import';

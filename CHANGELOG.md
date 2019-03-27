@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.9]
+- Verify that SQL tables and modules exist before exporting/importing
+- Verify that ACL constants exist while handling ACL information
+
 ## [v0.8]
 - Enforced order of import from the UI to: teams, roles, users, teams memberships, roles memberships, reports, awfs
 - Changed labels UI order to reflect the import order

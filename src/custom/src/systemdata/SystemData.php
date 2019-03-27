@@ -40,6 +40,8 @@ class SystemData
         'awf' => 'awf',
     ];
 
+    protected $dbTables = [];
+
     public function getUISectionLabels($section = 'import')
     {
         if ($section == 'import') {
@@ -199,13 +201,23 @@ class SystemData
         return false;
     }
 
+    public function getDBTables()
+    {
+        $db = \DBManagerFactory::getInstance();
+        if (empty($this->dbTables)) {
+            $this->dbTables = $db->getTablesArray();
+        }
+        return $this->dbTables;
+    }
+
     public function getRowsFromTable($table_name, $display_field = 'name')
     {
         $this->enforceAdmin();
 
+        $db_tables = $this->getDBTables();
         $list_records = array();
 
-        if (!empty($table_name) && !empty($display_field)) {
+        if (!empty($table_name) && !empty($display_field) && in_array($table_name, $db_tables)) {
             $db = \DBManagerFactory::getInstance();
 
             // retrieve also deleted
@@ -292,6 +304,28 @@ class SystemData
         $res['errors'] = array();
 
         if (!empty($bean_name)) {
+
+            // does the bean exist in this system?
+            $sampleBean = \BeanFactory::newBean($bean_name);
+            if ($sampleBean === null) {
+                // problem with non existing bean
+                $res['error'] = sprintf(
+                    translate('LBL_SYSTEMDATA_ERROR_BEAN'),
+                    $bean_name
+                );
+                return $res;
+            } else {
+                // does the table exists?
+                $tableName = $sampleBean->table_name;
+                $tables = $this->getDBTables();
+                if (!in_array($tableName, $tables)) {
+                    $res['error'] = sprintf(
+                        translate('LBL_SYSTEMDATA_ERROR_BEAN'),
+                        $bean_name
+                    );                   
+                    return $res;
+                }
+            }
 
             // create team sets
             $teams_errors = false;
