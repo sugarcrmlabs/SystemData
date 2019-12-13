@@ -15,23 +15,23 @@ class SystemDataUsers extends SystemData
 
         // retrieve also deleted
         $builder = $db->getConnection()->createQueryBuilder();
-        $builder->select(array('id', 'user_name'))->from('users');
+        $builder->select(['id', 'user_name'])->from('users');
         $builder->orderBy('id');
         $res = $builder->execute();
 
-        $team_fields = array(
+        $team_fields = [
             'team_set_id' => 'team_set_data',
             'acl_team_set_id' => 'acl_team_set_data',
             'default_team' => 'default_team_data',
             'team_id' => 'team_data',
-        );
+        ];
 
-        $list_users = array();
+        $list_users = [];
 
         while ($row = $res->fetch()) {
             if (!empty($row['id']) && !empty($row['user_name'])) {
                 // allow retrieval of deleted users as well
-                $u = \BeanFactory::getBean('Users', $row['id'], array(), false);
+                $u = \BeanFactory::getBean('Users', $row['id'], [], false);
 
                 if (!empty($u) && !empty($u->id)) {
                     foreach ($u->field_defs as $user_field_name) {
@@ -75,14 +75,14 @@ class SystemDataUsers extends SystemData
                         // get dashboards
                         $dashboards = $this->getUserDashboards($u->id);
                         if (!empty($dashboards)) {
-                            $list_users[$u->id]['dashboards'] = array();
+                            $list_users[$u->id]['dashboards'] = [];
                             $list_users[$u->id]['dashboards'] = $dashboards;
                         }
 
                         // get preferences
                         $prefs = $this->getUserPreferences($u->id);
                         if (!empty($prefs)) {
-                            $list_users[$u->id]['preferences'] = array();
+                            $list_users[$u->id]['preferences'] = [];
                             $list_users[$u->id]['preferences'] = $prefs;
                         }
                     }
@@ -99,7 +99,7 @@ class SystemDataUsers extends SystemData
 
         $db = \DBManagerFactory::getInstance();
 
-        $records = array();
+        $records = [];
         
         if (!empty($user_id)) {
             $builder = $db->getConnection()->createQueryBuilder();
@@ -109,11 +109,11 @@ class SystemDataUsers extends SystemData
           
             $res = $builder->execute();
 
-            $team_fields = array(
+            $team_fields = [
                 'team_set_id' => 'team_set_data',
                 'acl_team_set_id' => 'acl_team_set_data',
                 'team_id' => 'team_data',
-            );
+            ];
 
             while ($row = $res->fetch()) {
                 if (!empty($row['id'])) {
@@ -170,26 +170,24 @@ class SystemDataUsers extends SystemData
 
         $db = \DBManagerFactory::getInstance();
 
-        $records = array();
-        
-        if (!empty($user_id)) {
-            $builder = $db->getConnection()->createQueryBuilder();
-            $builder->select('*')->from('user_preferences');
-            $builder->where("deleted = '0'");
-            $builder->andWhere('assigned_user_id = ' . $builder->createPositionalParameter($user_id)); 
-            $builder->orderBy('id');
-          
-            $res = $builder->execute();
+        $records = [];
 
-            while ($row = $res->fetch()) {
-                if (!empty($row['id'])) {
-                    unset($row['deleted']);
+        $builder = $db->getConnection()->createQueryBuilder();
+        $builder->select('*')->from('user_preferences');
+        $builder->where("deleted = '0'");
+        $builder->andWhere('assigned_user_id = ' . $builder->createPositionalParameter($user_id));
+        $builder->orderBy('id');
 
-                    // decode so that it is clear on the json what we do
-                    $row['contents'] = base64_decode($row['contents']);
+        $res = $builder->execute();
 
-                    $records[$row['id']] = $row;
-                }
+        while ($row = $res->fetch()) {
+            if (!empty($row['id'])) {
+                unset($row['deleted']);
+
+                // decode so that it is clear on the json what we do
+                $row['contents'] = base64_decode($row['contents']);
+
+                $records[$row['id']] = $row;
             }
         }
 
@@ -229,9 +227,9 @@ class SystemDataUsers extends SystemData
 
         if (!empty($users)) {
 
-            $res = array();
-            $res['update'] = array();
-            $res['create'] = array(); 
+            $res = [];
+            $res['update'] = [];
+            $res['create'] = [];
 
             // first run of saves to save all user's bones first (with private teams and all)
             foreach ($users as $user) {
@@ -282,9 +280,9 @@ class SystemDataUsers extends SystemData
         $this->enforceAdmin();
 
         if (!empty($users)) {
-            $res = array();
-            $res['processed'] = array();
-            $res['skipped'] = array();
+            $res = [];
+            $res['processed'] = [];
+            $res['skipped'] = [];
 
             foreach ($users as $user_id => $user) {
                 if (!empty($user['teams'])) {
@@ -310,9 +308,9 @@ class SystemDataUsers extends SystemData
         $this->enforceAdmin();
 
         if (!empty($users)) {
-            $res = array();
-            $res['processed'] = array();
-            $res['skipped'] = array();
+            $res = [];
+            $res['processed'] = [];
+            $res['skipped'] = [];
 
             foreach ($users as $user_id => $user) {
                 if (!empty($user['roles'])) {
@@ -344,7 +342,7 @@ class SystemDataUsers extends SystemData
             if (!empty($u) && !empty($u->id)) {
                 foreach ($user_params['preferences'] as $preference_id => $preference_content) {
 
-                    $params = array();
+                    $params = [];
                     $params['assigned_user_id'] = $u->id;
 
                     foreach ($preference_content as $field_name => $field_content) {

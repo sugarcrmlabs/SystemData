@@ -21,6 +21,7 @@ class SystemDataTester extends SystemDataCli
         'email_addresses',
         'email_addr_bean_rel',
         'dashboards',
+        'filters',
         'acl_fields',
         'acl_role_sets',
         'acl_role_sets_acl_roles',

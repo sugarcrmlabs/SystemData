@@ -62,7 +62,7 @@ class SystemData
     {
         global $current_user, $app_strings;
         if (empty($current_user) || !$current_user->isAdmin()) {
-            throw new SugarApiExceptionNotAuthorized($app_strings['EXCEPTION_NOT_AUTHORIZED']);
+            throw new \SugarApiExceptionNotAuthorized($app_strings['EXCEPTION_NOT_AUTHORIZED']);
         }
     }
 
@@ -354,50 +354,56 @@ class SystemData
 
             if (empty($teams_errors)) {
 
-                // get also deleted records, so we undelete them if there is a match, instead of having a db error
-                $b = \BeanFactory::getBean($bean_name, $params['id'], array(), false);
+                // exception handling added for the licence restrictions
+                try {
+                    // get also deleted records, so we undelete them if there is a match, instead of having a db error
+                    $b = \BeanFactory::getBean($bean_name, $params['id'], array(), false);
 
-                if (!empty($b) && !empty($b->id)) {
-                    $res['update'][$b->id] = $b->name;
-                } else {
-                    $res['create'][$params['id']] = $params['name'];
-                    // creating with existing guid
-                    $b = \BeanFactory::newBean($bean_name);
-                    $b->new_with_id = true;
-                    $b->id = $params['id'];
-                }
-
-                foreach ($params as $field => $value) {
-                    if ($field != 'id' && $field != 'deleted') {
-                        $b->$field = $value;
+                    if (!empty($b) && !empty($b->id)) {
+                        $res['update'][$b->id] = $b->name;
+                    } else {
+                        $res['create'][$params['id']] = $params['name'];
+                        // creating with existing guid
+                        $b = \BeanFactory::newBean($bean_name);
+                        $b->new_with_id = true;
+                        $b->id = $params['id'];
                     }
-                }
 
-                // undelete if deleted
-                if ($b->deleted && !$params['deleted']) {
-                    $b->mark_undeleted($b->id);
-                }
+                    foreach ($params as $field => $value) {
+                        if ($field != 'id' && $field != 'deleted') {
+                            $b->$field = $value;
+                        }
+                    }
 
-                // delete if deleted
-                if ($params['deleted'] && !$b->deleted) {
-                    $b->mark_deleted($b->id);
-                }
+                    // undelete if deleted
+                    if ($b->deleted && !$params['deleted']) {
+                        $b->mark_undeleted($b->id);
+                    }
 
-                // preserve date date modified
-                if (!empty($b->date_modified)) {
-                    $b->update_date_modified = false;
-                }
+                    // delete if deleted
+                    if ($params['deleted'] && !$b->deleted) {
+                        $b->mark_deleted($b->id);
+                    }
 
-                if (!empty($b->modified_user_id)) {
-                    $b->update_modified_by = false;
-                }
+                    // preserve date date modified
+                    if (!empty($b->date_modified)) {
+                        $b->update_date_modified = false;
+                    }
 
-                // preserve created by
-                if (!empty($b->created_by)) {
-                    $b->set_created_by = false;
-                }
+                    if (!empty($b->modified_user_id)) {
+                        $b->update_modified_by = false;
+                    }
 
-                $b->save();
+                    // preserve created by
+                    if (!empty($b->created_by)) {
+                        $b->set_created_by = false;
+                    }
+
+                    $b->save();
+                } catch (\Exception $e) {
+                    // there was an exception, and we skipped this record
+                    return [];
+                }
             } else {
                 // problem with team sets
                 $res['error'] = sprintf(
@@ -451,7 +457,10 @@ class SystemData
                     break;
                 case 'users':
                     $sd = new SystemDataUsers();
-                    return array($name => $sd->getUsers());
+                    return [
+                        $name => $sd->getUsers(),
+                        'filters' => $this->getRowsFromTable('filters', 'name'),
+                    ];
                     break;
                 case 'awf':
                     $sd = new SystemDataAWF();
@@ -503,6 +512,7 @@ class SystemData
                     break;
                 case 'users':
                     $sd = new SystemDataUsers();
+                    $this->saveBeansArray('Filters', $data['filters'], 'name');
                     $res = $sd->saveUsersArray($data[$this->sectionToDataMapping[$name]]);
                     return [
                         sprintf(
