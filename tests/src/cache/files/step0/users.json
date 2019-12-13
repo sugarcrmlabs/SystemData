@@ -9,7 +9,7 @@
                 "pwd_last_changed": "",
                 "authenticate_id": "",
                 "sugar_login": 1,
-                "picture": "f8e42012-7582-11e7-8176-db64b2ae00cd",
+                "picture": "",
                 "first_name": "",
                 "last_name": "Administrator",
                 "full_name": "Administrator",
@@ -18,9 +18,9 @@
                 "external_auth_only": 0,
                 "receive_notifications": 1,
                 "description": "",
-                "date_entered": "07\/31\/2017 09:58am",
-                "date_modified": "08\/02\/2017 07:30pm",
-                "last_login": "08\/04\/2017 02:20pm",
+                "date_entered": "2017-07-30 23:58:00",
+                "date_modified": "2019-12-06 16:49:12",
+                "last_login": "2017-08-04 04:20:00",
                 "modified_user_id": "1",
                 "modified_by_name": "",
                 "created_by": "",
@@ -39,6 +39,44 @@
                 "address_country": "",
                 "address_postalcode": "",
                 "UserType": "",
+                "license_type": "",
+                "business_center_name": "",
+                "business_center_id": "",
+                "team_name": "Global",
+                "portal_only": 0,
+                "show_on_employees": 1,
+                "employee_status": "Active",
+                "messenger_id": "",
+                "messenger_type": "",
+                "reports_to_id": "",
+                "reports_to_name": "",
+                "email": [
+                    {
+                        "email_address": "admin@admin.com",
+                        "email_address_caps": "ADMIN@ADMIN.COM",
+                        "invalid_email": 0,
+                        "opt_out": 0,
+                        "date_created": "2019-12-06 16:49:00",
+                        "date_modified": "2019-12-06 16:49:00",
+                        "id": "4de27040-1848-11ea-a39c-0242c0a83007",
+                        "email_address_id": "4dd2c212-1848-11ea-9b07-0242c0a83007",
+                        "bean_id": "1",
+                        "bean_module": "Users",
+                        "primary_address": 1,
+                        "reply_to_address": 0,
+                        "deleted": 0
+                    }
+                ],
+                "email_link_type": "",
+                "is_group": 0,
+                "c_accept_status_fields": "",
+                "m_accept_status_fields": "",
+                "accept_status_id": "",
+                "accept_status_name": "",
+                "accept_status_calls": "",
+                "accept_status_meetings": "",
+                "preferred_language": "",
+                "site_user_id": "53a552107c65357a24f632c6a1fc07448263c76a7853a409b2935b7ffb6c756e",
                 "team_set_data": {
                     "teams": {
                         "1": "1"
@@ -57,43 +95,210 @@
                         "1": "1"
                     },
                     "users_private_teams": []
-                },
-                "portal_only": 0,
-                "show_on_employees": 1,
-                "employee_status": "Active",
-                "messenger_id": "",
-                "messenger_type": "",
-                "reports_to_id": "",
-                "reports_to_name": "",
-                "email1": "admin@admin.com",
-                "email": [
-                    {
-                        "email_address": "admin@admin.com",
-                        "email_address_caps": "ADMIN@ADMIN.COM",
-                        "invalid_email": 0,
-                        "opt_out": 0,
-                        "date_created": "2017-07-31 00:07:33",
-                        "date_modified": "2017-07-31 00:07:33",
-                        "id": "405655f4-7584-11e7-946c-5cb65aa7d6e6",
-                        "email_address_id": "4056bb16-7584-11e7-8ee9-d1fe5e11cec7",
-                        "bean_id": "1",
-                        "bean_module": "Users",
-                        "primary_address": 1,
-                        "reply_to_address": 0,
-                        "deleted": 0
+                }
+            },
+            "dashboards": {
+                "04573afe-78d2-11e7-91ff-1a99a08b170f": {
+                    "id": "04573afe-78d2-11e7-91ff-1a99a08b170f",
+                    "name": "LBL_DEFAULT_DASHBOARD_TITLE",
+                    "date_entered": "2017-08-04 05:01:46",
+                    "date_modified": "2017-08-04 05:01:46",
+                    "modified_user_id": "1",
+                    "created_by": "1",
+                    "description": null,
+                    "dashboard_module": "Accounts",
+                    "view_name": "record",
+                    "metadata": "{\"components\":[{\"rows\":[[{\"view\":{\"type\":\"opportunity-metrics\",\"label\":\"LBL_DASHLET_OPPORTUNITY_NAME\"},\"width\":12}],[{\"view\":{\"type\":\"casessummary\",\"label\":\"LBL_DASHLET_CASES_SUMMARY_NAME\"},\"width\":12}],[{\"view\":{\"type\":\"planned-activities\",\"label\":\"LBL_PLANNED_ACTIVITIES_DASHLET\"},\"width\":12}],[{\"view\":{\"type\":\"history\",\"label\":\"LBL_HISTORY_DASHLET\"},\"width\":12}]],\"width\":12}]}",
+                    "default_dashboard": 1,
+                    "acl_team_set_id": null,
+                    "assigned_user_id": "1",
+                    "team_set_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    },
+                    "team_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
                     }
-                ],
-                "email_link_type": "",
-                "is_group": 0,
-                "c_accept_status_fields": "",
-                "m_accept_status_fields": "",
-                "accept_status_id": "",
-                "accept_status_name": "",
-                "accept_status_calls": "",
-                "accept_status_meetings": "",
-                "preferred_language": "",
-                "acl_role_set_id": ""
+                },
+                "0ed6f582-7d8c-11e7-aeab-1adf1a083111": {
+                    "id": "0ed6f582-7d8c-11e7-aeab-1adf1a083111",
+                    "name": "LBL_DEFAULT_DASHBOARD_TITLE",
+                    "date_entered": "2017-08-10 05:23:35",
+                    "date_modified": "2017-08-10 05:23:35",
+                    "modified_user_id": "1",
+                    "created_by": "1",
+                    "description": null,
+                    "dashboard_module": "Leads",
+                    "view_name": "records",
+                    "metadata": "{\"components\":[{\"rows\":[[{\"view\":{\"type\":\"dashablelist\",\"label\":\"TPL_DASHLET_MY_MODULE\",\"display_columns\":[\"name\",\"billing_address_country\",\"billing_address_city\"]},\"context\":{\"module\":\"Accounts\"},\"width\":12}]],\"width\":12}]}",
+                    "default_dashboard": 1,
+                    "acl_team_set_id": null,
+                    "assigned_user_id": "1",
+                    "team_set_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    },
+                    "team_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    }
+                },
+                "4a5224be-78ce-11e7-a442-5c7cea605758": {
+                    "id": "4a5224be-78ce-11e7-a442-5c7cea605758",
+                    "name": "LBL_DEFAULT_DASHBOARD_TITLE",
+                    "date_entered": "2017-08-04 04:35:06",
+                    "date_modified": "2017-08-04 04:35:06",
+                    "modified_user_id": "1",
+                    "created_by": "1",
+                    "description": null,
+                    "dashboard_module": "Home",
+                    "view_name": null,
+                    "metadata": "{\"components\":[{\"rows\":[[{\"view\":{\"type\":\"twitter\",\"label\":\"LBL_DASHLET_RECENT_TWEETS_SUGARCRM_NAME\",\"twitter\":\"sugarcrm\",\"limit\":20},\"width\":12}],[{\"view\":{\"type\":\"dashablelist\",\"label\":\"TPL_DASHLET_MY_MODULE\",\"display_columns\":[\"full_name\",\"account_name\",\"phone_work\",\"title\"],\"limit\":15},\"context\":{\"module\":\"Contacts\"},\"width\":12}]],\"width\":4},{\"rows\":[[{\"view\":{\"type\":\"sales-pipeline\",\"label\":\"LBL_DASHLET_PIPLINE_NAME\",\"visibility\":\"user\"},\"width\":12}],[{\"view\":{\"type\":\"bubblechart\",\"label\":\"LBL_DASHLET_TOP10_SALES_OPPORTUNITIES_NAME\",\"filter_duration\":\"current\",\"visibility\":\"user\"},\"width\":12}]],\"width\":8}]}",
+                    "default_dashboard": 1,
+                    "acl_team_set_id": null,
+                    "assigned_user_id": "1",
+                    "team_set_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    },
+                    "team_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    }
+                },
+                "4e939f76-78ce-11e7-a951-4d0769925119": {
+                    "id": "4e939f76-78ce-11e7-a951-4d0769925119",
+                    "name": "LBL_DEFAULT_DASHBOARD_TITLE",
+                    "date_entered": "2017-08-04 04:35:13",
+                    "date_modified": "2017-08-04 04:35:13",
+                    "modified_user_id": "1",
+                    "created_by": "1",
+                    "description": null,
+                    "dashboard_module": "Accounts",
+                    "view_name": "records",
+                    "metadata": "{\"components\":[{\"rows\":[[{\"view\":{\"type\":\"dashablelist\",\"label\":\"TPL_DASHLET_MY_MODULE\",\"display_columns\":[\"name\",\"billing_address_country\",\"billing_address_city\"]},\"context\":{\"module\":\"Accounts\"},\"width\":12}]],\"width\":12}]}",
+                    "default_dashboard": 1,
+                    "acl_team_set_id": null,
+                    "assigned_user_id": "1",
+                    "team_set_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    },
+                    "team_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    }
+                },
+                "bbb141e6-78d1-11e7-9269-40078f9c5699": {
+                    "id": "bbb141e6-78d1-11e7-9269-40078f9c5699",
+                    "name": "LBL_DEFAULT_DASHBOARD_TITLE",
+                    "date_entered": "2017-08-04 04:59:44",
+                    "date_modified": "2017-08-04 04:59:44",
+                    "modified_user_id": "1",
+                    "created_by": "1",
+                    "description": null,
+                    "dashboard_module": "Contacts",
+                    "view_name": "records",
+                    "metadata": "{\"components\":[{\"rows\":[[{\"view\":{\"type\":\"dashablelist\",\"label\":\"TPL_DASHLET_MY_MODULE\",\"display_columns\":[\"name\",\"billing_address_country\",\"billing_address_city\"]},\"context\":{\"module\":\"Accounts\"},\"width\":12}]],\"width\":12}]}",
+                    "default_dashboard": 1,
+                    "acl_team_set_id": null,
+                    "assigned_user_id": "1",
+                    "team_set_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    },
+                    "team_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    }
+                },
+                "d3be2526-7d8e-11e7-9eee-c4c92e70a67a": {
+                    "id": "d3be2526-7d8e-11e7-9eee-c4c92e70a67a",
+                    "name": "LBL_DEFAULT_DASHBOARD_TITLE",
+                    "date_entered": "2017-08-10 05:43:24",
+                    "date_modified": "2017-08-10 05:43:24",
+                    "modified_user_id": "1",
+                    "created_by": "1",
+                    "description": null,
+                    "dashboard_module": "Quotes",
+                    "view_name": "records",
+                    "metadata": "{\"components\":[{\"rows\":[[{\"view\":{\"type\":\"sales-pipeline\",\"label\":\"LBL_DASHLET_PIPLINE_NAME\",\"visibility\":\"user\"},\"width\":12}]],\"width\":12}]}",
+                    "default_dashboard": 1,
+                    "acl_team_set_id": null,
+                    "assigned_user_id": "1",
+                    "team_set_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    },
+                    "team_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    }
+                },
+                "d48b65e0-7d8e-11e7-878f-81328983f9fd": {
+                    "id": "d48b65e0-7d8e-11e7-878f-81328983f9fd",
+                    "name": "LBL_DEFAULT_DASHBOARD_TITLE",
+                    "date_entered": "2017-08-10 05:43:26",
+                    "date_modified": "2017-08-10 05:43:26",
+                    "modified_user_id": "1",
+                    "created_by": "1",
+                    "description": null,
+                    "dashboard_module": "Opportunities",
+                    "view_name": "records",
+                    "metadata": "{\"components\":[{\"rows\":[[{\"view\":{\"type\":\"sales-pipeline\",\"label\":\"LBL_DASHLET_PIPLINE_NAME\",\"visibility\":\"user\"},\"width\":12}]],\"width\":12}]}",
+                    "default_dashboard": 1,
+                    "acl_team_set_id": null,
+                    "assigned_user_id": "1",
+                    "team_set_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    },
+                    "team_data": {
+                        "teams": {
+                            "1": "1"
+                        },
+                        "users_private_teams": []
+                    }
+                }
+            },
+            "preferences": {
+                "546a6cd8-1848-11ea-8243-0242c0a83006": {
+                    "id": "546a6cd8-1848-11ea-8243-0242c0a83006",
+                    "category": "global",
+                    "date_entered": "2019-12-06 16:49:11",
+                    "date_modified": "2019-12-06 16:49:12",
+                    "assigned_user_id": "1",
+                    "contents": "a:6:{s:8:\"timezone\";s:3:\"UTC\";s:5:\"timef\";s:4:\"h:ia\";s:5:\"datef\";s:5:\"m\/d\/Y\";s:26:\"default_locale_name_format\";s:5:\"s f l\";s:2:\"ut\";b:1;s:11:\"__sugar_url\";s:20:\"v11_6\/me\/preferences\";}"
+                }
             }
         }
-    }
+    },
+    "filters": []
 }

@@ -1088,6 +1088,7 @@
                 "assigned_user_id": null
             }
         },
-        "pmse_bpmn_artifact": []
+        "pmse_bpmn_artifact": [],
+        "pmse_email_message": []
     }
 }

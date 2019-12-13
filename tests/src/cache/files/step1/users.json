@@ -9,7 +9,7 @@
                 "pwd_last_changed": "",
                 "authenticate_id": "",
                 "sugar_login": 1,
-                "picture": "f8e42012-7582-11e7-8176-db64b2ae00cd",
+                "picture": "",
                 "first_name": "",
                 "last_name": "Administrator",
                 "full_name": "Administrator",
@@ -18,9 +18,9 @@
                 "external_auth_only": 0,
                 "receive_notifications": 1,
                 "description": "",
-                "date_entered": "07\/31\/2017 09:58am",
-                "date_modified": "08\/04\/2017 05:02am",
-                "last_login": "08\/04\/2017 04:34am",
+                "date_entered": "2017-07-30 23:58:00",
+                "date_modified": "2017-08-04 05:02:00",
+                "last_login": "2017-08-04 04:34:00",
                 "modified_user_id": "1",
                 "modified_by_name": "",
                 "created_by": "",
@@ -39,7 +39,9 @@
                 "address_country": "",
                 "address_postalcode": "",
                 "UserType": "",
-                "team_count": "",
+                "license_type": "",
+                "business_center_name": "",
+                "business_center_id": "",
                 "team_name": "Global",
                 "portal_only": 0,
                 "show_on_employees": 1,
@@ -54,10 +56,10 @@
                         "email_address_caps": "ADMIN@ADMIN.COM",
                         "invalid_email": 0,
                         "opt_out": 0,
-                        "date_created": "2017-08-10 06:33:31",
-                        "date_modified": "2017-08-10 06:33:31",
-                        "id": "d43e4fa6-7d95-11e7-93f5-85462102c45c",
-                        "email_address_id": "d43e9df8-7d95-11e7-bbb5-0d4bda0b879b",
+                        "date_created": "2019-12-06 17:03:01",
+                        "date_modified": "2019-12-06 17:03:01",
+                        "id": "42de7174-184a-11ea-9ee7-0242c0a83007",
+                        "email_address_id": "42cfa798-184a-11ea-945a-0242c0a83007",
                         "bean_id": "1",
                         "bean_module": "Users",
                         "primary_address": 1,
@@ -74,6 +76,7 @@
                 "accept_status_calls": "",
                 "accept_status_meetings": "",
                 "preferred_language": "",
+                "site_user_id": "53a552107c65357a24f632c6a1fc07448263c76a7853a409b2935b7ffb6c756e",
                 "team_set_data": {
                     "teams": {
                         "1": "1"
@@ -163,7 +166,7 @@
                     "dashboard_module": "Home",
                     "view_name": null,
                     "metadata": "{\"components\":[{\"rows\":[[{\"view\":{\"type\":\"twitter\",\"label\":\"LBL_DASHLET_RECENT_TWEETS_SUGARCRM_NAME\",\"twitter\":\"sugarcrm\",\"limit\":20},\"width\":12}],[{\"view\":{\"type\":\"dashablelist\",\"label\":\"TPL_DASHLET_MY_MODULE\",\"display_columns\":[\"full_name\",\"account_name\",\"phone_work\",\"title\"],\"limit\":15},\"context\":{\"module\":\"Contacts\"},\"width\":12}]],\"width\":4},{\"rows\":[[{\"view\":{\"type\":\"sales-pipeline\",\"label\":\"LBL_DASHLET_PIPLINE_NAME\",\"visibility\":\"user\"},\"width\":12}],[{\"view\":{\"type\":\"bubblechart\",\"label\":\"LBL_DASHLET_TOP10_SALES_OPPORTUNITIES_NAME\",\"filter_duration\":\"current\",\"visibility\":\"user\"},\"width\":12}]],\"width\":8}]}",
-                    "default_dashboard": 1,
+                    "default_dashboard": 0,
                     "acl_team_set_id": null,
                     "assigned_user_id": "1",
                     "team_set_data": {
@@ -206,6 +209,60 @@
                         "users_private_teams": []
                     }
                 },
+                "93081a94-1848-11ea-8af0-0242c0a83006": {
+                    "id": "93081a94-1848-11ea-8af0-0242c0a83006",
+                    "name": "Homepage",
+                    "date_entered": "2019-12-06 16:50:57",
+                    "date_modified": "2019-12-06 17:07:44",
+                    "modified_user_id": "1",
+                    "created_by": "1",
+                    "description": null,
+                    "dashboard_module": "Home",
+                    "view_name": null,
+                    "metadata": "{\"components\":[{\"rows\":[[{\"width\":6,\"view\":{\"limit\":10,\"visibility\":\"user\",\"label\":\"Active Tasks\",\"type\":\"active-tasks\",\"module\":null,\"template\":\"tabbed-dashlet\"}},{\"width\":6,\"context\":{\"module\":\"Accounts\"},\"view\":{\"label\":\"My Accounts\",\"type\":\"dashablelist\",\"module\":\"Accounts\",\"last_state\":{\"id\":\"dashable-list\"},\"intelligent\":\"0\",\"limit\":5,\"filter_id\":\"assigned_to_me\",\"display_columns\":[\"name\",\"billing_address_city\",\"billing_address_country\",\"phone_office\",\"assigned_user_name\",\"email\",\"date_modified\",\"date_entered\"]}}],[{\"width\":12,\"context\":{\"module\":\"Contacts\",\"link\":null},\"view\":{\"label\":\"My Australian Contacts\",\"type\":\"dashablelist\",\"module\":\"Contacts\",\"last_state\":{\"id\":\"dashable-list\"},\"intelligent\":\"0\",\"limit\":5,\"filter_id\":\"a3f825a4-184a-11ea-a6f7-0242c0a83006\",\"display_columns\":[\"name\",\"title\",\"account_name\",\"email\",\"phone_work\",\"assigned_user_name\",\"date_modified\",\"date_entered\"],\"skipFetch\":true,\"componentType\":\"view\"}}]],\"width\":12}]}",
+                    "default_dashboard": 1,
+                    "acl_team_set_id": null,
+                    "assigned_user_id": "1",
+                    "team_set_data": {
+                        "teams": [],
+                        "users_private_teams": {
+                            "1": "1"
+                        }
+                    },
+                    "team_data": {
+                        "teams": [],
+                        "users_private_teams": {
+                            "1": "1"
+                        }
+                    }
+                },
+                "a39a4616-1848-11ea-bc28-0242c0a83006": {
+                    "id": "a39a4616-1848-11ea-bc28-0242c0a83006",
+                    "name": "Secondary Dashboard",
+                    "date_entered": "2019-12-06 16:51:24",
+                    "date_modified": "2019-12-06 16:51:24",
+                    "modified_user_id": "1",
+                    "created_by": "1",
+                    "description": null,
+                    "dashboard_module": "Home",
+                    "view_name": null,
+                    "metadata": "{\"components\":[{\"rows\":[[{\"width\":12,\"view\":{\"limit\":\"10\",\"filter\":\"7\",\"visibility\":\"user\",\"label\":\"History\",\"type\":\"history\",\"module\":null,\"template\":\"tabbed-dashlet\"}}]],\"width\":12}]}",
+                    "default_dashboard": 0,
+                    "acl_team_set_id": null,
+                    "assigned_user_id": "1",
+                    "team_set_data": {
+                        "teams": [],
+                        "users_private_teams": {
+                            "1": "1"
+                        }
+                    },
+                    "team_data": {
+                        "teams": [],
+                        "users_private_teams": {
+                            "1": "1"
+                        }
+                    }
+                },
                 "bbb141e6-78d1-11e7-9269-40078f9c5699": {
                     "id": "bbb141e6-78d1-11e7-9269-40078f9c5699",
                     "name": "LBL_DEFAULT_DASHBOARD_TITLE",
@@ -217,7 +274,7 @@
                     "dashboard_module": "Contacts",
                     "view_name": "records",
                     "metadata": "{\"components\":[{\"rows\":[[{\"view\":{\"type\":\"dashablelist\",\"label\":\"TPL_DASHLET_MY_MODULE\",\"display_columns\":[\"name\",\"billing_address_country\",\"billing_address_city\"]},\"context\":{\"module\":\"Accounts\"},\"width\":12}]],\"width\":12}]}",
-                    "default_dashboard": 1,
+                    "default_dashboard": 0,
                     "acl_team_set_id": null,
                     "assigned_user_id": "1",
                     "team_set_data": {
@@ -231,6 +288,33 @@
                             "1": "1"
                         },
                         "users_private_teams": []
+                    }
+                },
+                "c3505ac2-1848-11ea-954f-0242c0a83006": {
+                    "id": "c3505ac2-1848-11ea-954f-0242c0a83006",
+                    "name": "Contacts intelligence panel",
+                    "date_entered": "2019-12-06 16:52:18",
+                    "date_modified": "2019-12-06 16:52:54",
+                    "modified_user_id": "1",
+                    "created_by": "1",
+                    "description": null,
+                    "dashboard_module": "Contacts",
+                    "view_name": "records",
+                    "metadata": "{\"components\":[{\"rows\":[[{\"width\":12,\"context\":{\"module\":\"Contacts\",\"link\":null},\"view\":{\"label\":\"My Fav Contacts\",\"type\":\"dashablelist\",\"module\":\"Contacts\",\"last_state\":{\"id\":\"dashable-list\"},\"intelligent\":\"0\",\"limit\":5,\"filter_id\":\"favorites\",\"display_columns\":[\"name\",\"account_name\"],\"linked_fields\":\"reports_to_link\",\"skipFetch\":true,\"componentType\":\"view\",\"link\":null}}],[{\"width\":12,\"context\":{\"module\":\"Contacts\",\"link\":null},\"view\":{\"label\":\"Recently Created\",\"type\":\"dashablelist\",\"module\":\"Contacts\",\"last_state\":{\"id\":\"dashable-list\"},\"intelligent\":\"0\",\"limit\":5,\"filter_id\":\"recently_created\",\"display_columns\":[\"name\",\"account_name\",\"date_entered\"],\"linked_fields\":\"reports_to_link\",\"skipFetch\":true,\"componentType\":\"view\"}}]],\"width\":12}]}",
+                    "default_dashboard": 1,
+                    "acl_team_set_id": null,
+                    "assigned_user_id": "1",
+                    "team_set_data": {
+                        "teams": [],
+                        "users_private_teams": {
+                            "1": "1"
+                        }
+                    },
+                    "team_data": {
+                        "teams": [],
+                        "users_private_teams": {
+                            "1": "1"
+                        }
                     }
                 },
                 "d3be2526-7d8e-11e7-9eee-c4c92e70a67a": {
@@ -353,7 +437,7 @@
                 "user_name": "jsmith",
                 "user_hash": "$2y$10$0v12gqeJk1WW8PYcmSsgVeHU39EZjpDgFg3H.CFoQlwYnSOG.8e6S",
                 "system_generated_password": 0,
-                "pwd_last_changed": "08\/04\/2017 04:37am",
+                "pwd_last_changed": "2017-08-04 04:37:00",
                 "authenticate_id": "",
                 "sugar_login": 1,
                 "picture": "",
@@ -365,9 +449,9 @@
                 "external_auth_only": 0,
                 "receive_notifications": 1,
                 "description": "",
-                "date_entered": "08\/04\/2017 04:37am",
-                "date_modified": "08\/10\/2017 04:33pm",
-                "last_login": "08\/04\/2017 05:17am",
+                "date_entered": "2017-08-04 04:37:00",
+                "date_modified": "2017-08-10 16:33:00",
+                "last_login": "2017-08-04 05:17:00",
                 "modified_user_id": "1",
                 "modified_by_name": "",
                 "created_by": "1",
@@ -386,7 +470,9 @@
                 "address_country": "Australia",
                 "address_postalcode": "",
                 "UserType": "",
-                "team_count": "",
+                "license_type": "",
+                "business_center_name": "",
+                "business_center_id": "",
                 "team_name": "John",
                 "portal_only": 0,
                 "show_on_employees": 1,
@@ -405,7 +491,7 @@
                 "accept_status_calls": "",
                 "accept_status_meetings": "",
                 "preferred_language": "",
-                "acl_team_set_data": [],
+                "site_user_id": "53a552107c65357a24f632c6a1fc07448263c76a7853a409b2935b7ffb6c756e",
                 "team_set_data": {
                     "teams": {
                         "1": "1"
@@ -414,6 +500,7 @@
                         "8ee9409e-78ce-11e7-acb7-31fc45521555": "8ee9409e-78ce-11e7-acb7-31fc45521555"
                     }
                 },
+                "acl_team_set_data": [],
                 "default_team_data": {
                     "teams": [],
                     "users_private_teams": {
@@ -446,7 +533,6 @@
                     "view_name": null,
                     "metadata": "{\"components\":[{\"rows\":[[{\"view\":{\"type\":\"twitter\",\"label\":\"LBL_DASHLET_RECENT_TWEETS_SUGARCRM_NAME\",\"twitter\":\"sugarcrm\",\"limit\":20},\"width\":12}],[{\"view\":{\"type\":\"dashablelist\",\"label\":\"TPL_DASHLET_MY_MODULE\",\"display_columns\":[\"full_name\",\"account_name\",\"phone_work\",\"title\"],\"limit\":15},\"context\":{\"module\":\"Contacts\"},\"width\":12}]],\"width\":4},{\"rows\":[[{\"view\":{\"type\":\"sales-pipeline\",\"label\":\"LBL_DASHLET_PIPLINE_NAME\",\"visibility\":\"user\"},\"width\":12}],[{\"view\":{\"type\":\"bubblechart\",\"label\":\"LBL_DASHLET_TOP10_SALES_OPPORTUNITIES_NAME\",\"filter_duration\":\"current\",\"visibility\":\"user\"},\"width\":12}]],\"width\":8}]}",
                     "default_dashboard": 1,
-                    "acl_team_set_id": null,
                     "assigned_user_id": "8ee9409e-78ce-11e7-acb7-31fc45521555",
                     "team_set_data": {
                         "teams": [],
@@ -454,6 +540,7 @@
                             "8ee9409e-78ce-11e7-acb7-31fc45521555": "8ee9409e-78ce-11e7-acb7-31fc45521555"
                         }
                     },
+                    "acl_team_set_data": null,
                     "team_data": {
                         "teams": [],
                         "users_private_teams": {
@@ -560,6 +647,60 @@
                     "assigned_user_id": "8ee9409e-78ce-11e7-acb7-31fc45521555",
                     "contents": "a:35:{s:12:\"mailmerge_on\";s:3:\"off\";s:16:\"swap_last_viewed\";s:0:\"\";s:14:\"swap_shortcuts\";s:0:\"\";s:14:\"module_favicon\";s:0:\"\";s:9:\"hide_tabs\";a:0:{}s:11:\"remove_tabs\";a:0:{}s:7:\"no_opps\";s:3:\"off\";s:13:\"reminder_time\";s:4:\"1800\";s:19:\"email_reminder_time\";i:-1;s:8:\"timezone\";s:16:\"Australia\/Sydney\";s:2:\"ut\";s:1:\"1\";s:8:\"currency\";s:3:\"-99\";s:35:\"default_currency_significant_digits\";s:1:\"2\";s:23:\"currency_show_preferred\";b:0;s:11:\"num_grp_sep\";s:1:\",\";s:7:\"dec_sep\";s:1:\".\";s:4:\"fdow\";s:1:\"1\";s:5:\"datef\";s:5:\"d\/m\/Y\";s:5:\"timef\";s:3:\"H:i\";s:26:\"default_locale_name_format\";s:5:\"s f l\";s:16:\"export_delimiter\";s:1:\",\";s:22:\"default_export_charset\";s:5:\"UTF-8\";s:14:\"use_real_names\";s:2:\"on\";s:17:\"mail_smtpauth_req\";s:0:\"\";s:12:\"mail_smtpssl\";i:0;s:27:\"sugarpdf_pdf_font_name_main\";s:10:\"dejavusans\";s:27:\"sugarpdf_pdf_font_size_main\";s:1:\"8\";s:27:\"sugarpdf_pdf_font_name_data\";s:10:\"dejavusans\";s:27:\"sugarpdf_pdf_font_size_data\";s:1:\"8\";s:15:\"email_link_type\";s:6:\"mailto\";s:17:\"email_show_counts\";i:0;s:20:\"calendar_publish_key\";s:36:\"8effac6c-78ce-11e7-8beb-5fce66a2198e\";s:15:\"loginexpiration\";s:1:\"0\";s:7:\"lockout\";s:0:\"\";s:11:\"loginfailed\";s:1:\"0\";}"
                 }
+            }
+        }
+    },
+    "filters": {
+        "e607e286-184a-11ea-8e6e-0242c0a83006": {
+            "id": "e607e286-184a-11ea-8e6e-0242c0a83006",
+            "name": "Contacts in Sydney",
+            "date_entered": "2019-12-06 17:07:35",
+            "date_modified": "2019-12-06 17:07:35",
+            "modified_user_id": "1",
+            "created_by": "1",
+            "description": null,
+            "filter_definition": "[{\"$or\":[{\"alt_address_city\":{\"$equals\":\"Sydney\"}},{\"primary_address_city\":{\"$equals\":\"Sydney\"}}]}]",
+            "filter_template": "[{\"$or\":[{\"alt_address_city\":{\"$equals\":\"Sydney\"}},{\"primary_address_city\":{\"$equals\":\"Sydney\"}}]}]",
+            "module_name": "Contacts",
+            "acl_team_set_id": null,
+            "assigned_user_id": null,
+            "team_set_data": {
+                "teams": {
+                    "1": "1"
+                },
+                "users_private_teams": []
+            },
+            "team_data": {
+                "teams": {
+                    "1": "1"
+                },
+                "users_private_teams": []
+            }
+        },
+        "a3f825a4-184a-11ea-a6f7-0242c0a83006": {
+            "id": "a3f825a4-184a-11ea-a6f7-0242c0a83006",
+            "name": "My Australian Contacts",
+            "date_entered": "2019-12-06 17:05:44",
+            "date_modified": "2019-12-06 17:06:56",
+            "modified_user_id": "1",
+            "created_by": "1",
+            "description": null,
+            "filter_definition": "[{\"$or\":[{\"alt_address_country\":{\"$equals\":\"Australia\"}},{\"primary_address_country\":{\"$equals\":\"Australia\"}}]},{\"$owner\":\"\"}]",
+            "filter_template": "[{\"$or\":[{\"alt_address_country\":{\"$equals\":\"Australia\"}},{\"primary_address_country\":{\"$equals\":\"Australia\"}}]},{\"$owner\":\"\"}]",
+            "module_name": "Contacts",
+            "acl_team_set_id": null,
+            "assigned_user_id": null,
+            "team_set_data": {
+                "teams": {
+                    "1": "1"
+                },
+                "users_private_teams": []
+            },
+            "team_data": {
+                "teams": {
+                    "1": "1"
+                },
+                "users_private_teams": []
             }
         }
     }

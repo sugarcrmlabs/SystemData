@@ -19,7 +19,7 @@ Can export and import from one instance to another:
 - Teams Membership
 - Roles Membership
 - Reports
-- AWF (Advanced Workflows)
+- SugarBPM
 
 It can be used in three different ways:
 - Administration UI interfaces for exporting and importing
@@ -47,15 +47,15 @@ It exports both module level and field level. It does "smart update" of all fiel
 It exports data from the database, converting actions/permissions into human readable format (eg: ACL_ALLOW_NORMAL, ACL_ALLOW_ENABLED, ACL_ALLOW_DEFAULT, ACL_ALLOW_OWNER and so on). This can give the flexibility of versioning Roles files and it is possible and really simple to update manually few elements within the JSON structure, to update the matching Roles accordingly.
 
 #### Users
-It includes Teams membership and Roles membership ONLY for explicit assignment. It includes reporting structure as well. It does not remove users from other explicit/implicit Teams membership or Role membeship.
+It includes Teams membership and Roles membership ONLY for explicit assignment. It includes reporting structure as well. It does not remove users from other explicit/implicit Teams membership or Role membeship. It includes also User Preferences, Dashboards and Filters.
 
 #### Reports
 It exports Reports, including all Teams and Team Sets used on the records. Now from 7.8 onwards there is an additional Team Set field for Team based ACL: acl_team_set_id and the script is already compatible with it.<br />
 In addition to export the Report records, it completes an export of the full list of Teams that comprise the related Team Sets. It also completes an export of the full list of Users that have a Private Team part of the Team Set (as private Teams are not exported by the tool, so that it can find the newly matching private Team for the same Users).
 
-#### AWF
-It exports AWF records, including business rules and email templates.<br />
-Some AWF records required Teams and Team Sets. Similarly to the Reports export, the tool keeps track of what Teams and/or Users are related to the record. 
+#### SugarBPM
+It exports SugarBPM records, including business rules and email templates.<br />
+Some SugarBPM records required Teams and Team Sets. Similarly to the Reports export, the tool keeps track of what Teams and/or Users are related to the record. 
 
 #### Importing of Data
 
@@ -68,14 +68,14 @@ The order should be:
 - Teams Membership
 - Roles Membership
 - Reports
-- AWF
+- SugarBPM
 
 This tool is only compatible with its own export files.
 
 ## Installation
 * Clone the repository and enter the cloned directory
 * Retrieve the Sugar Module Packager dependency by running: `composer install`
-* Generate the installable .zip Sugar module with: `./vendor/bin/package 0.9`
+* Generate the installable .zip Sugar module with: `./vendor/bin/package 1.0`
 * Install the generated module into the instance
 * Execute a repair and a hard browser refresh as an Administrator to see the UI
 * If on premise, and want to use the CLI, please make sure that `<sugar directory>/bin/sugarcrm` is executable

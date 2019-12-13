@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.0]
+- Added support for 9.x
+- Added User's filters
+- Renamed AWF to SugarBPM on labels
+
 ## [v0.9]
 - Verify that SQL tables and modules exist before exporting/importing
 - Verify that ACL constants exist while handling ACL information
