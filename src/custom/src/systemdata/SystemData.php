@@ -362,7 +362,7 @@ class SystemData
                     if (!empty($b) && !empty($b->id)) {
                         $res['update'][$b->id] = $b->name;
                     } else {
-                        $res['create'][$params['id']] = $params['name'];
+                        $res['create'][$params['id']] = $params['name'] ?? $params['id'];
                         // creating with existing guid
                         $b = \BeanFactory::newBean($bean_name);
                         $b->new_with_id = true;
@@ -376,12 +376,12 @@ class SystemData
                     }
 
                     // undelete if deleted
-                    if ($b->deleted && !$params['deleted']) {
+                    if ($b->deleted && empty($params['deleted'])) {
                         $b->mark_undeleted($b->id);
                     }
 
                     // delete if deleted
-                    if ($params['deleted'] && !$b->deleted) {
+                    if (!empty($params['deleted']) && !$b->deleted) {
                         $b->mark_deleted($b->id);
                     }
 

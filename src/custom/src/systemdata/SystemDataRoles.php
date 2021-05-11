@@ -213,7 +213,7 @@ class SystemDataRoles extends SystemData
         }
 
         // undelete if deleted
-        if ($b->deleted && !$params['role_info']['deleted']) {
+        if ($b->deleted && empty($params['role_info']['deleted'])) {
             $b->mark_undeleted($b->id);
         }
 
@@ -221,7 +221,7 @@ class SystemDataRoles extends SystemData
         $b->retrieve($b->id);
 
         // delete if deleted
-        if ($params['role_info']['deleted']) {
+        if (!empty($params['role_info']['deleted'])) {
             $b->mark_deleted($b->id);
             $this->clearRoleLevelPermissions($b->id);
             $this->clearFieldLevelPermissions($b->id);
