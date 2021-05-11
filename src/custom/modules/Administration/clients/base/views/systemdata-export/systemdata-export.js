@@ -29,7 +29,7 @@
                 self.exportData = response;
                 self.render();
             },
-            error: function() {
+            error: function(error) {
                 self.context.trigger('systemdata:response');
                 app.error.handleHttpError(error);
             },
